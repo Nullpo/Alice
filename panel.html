@@ -1,0 +1,96 @@
+<div id="bottom-alice" class="bottom-panel vert-resizable top-resizer no-focus" >
+    <div class="toolbar simple-toolbar-layout mainToolbar alice-toolbar">
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="control-group alice-control-group-repo-url">
+                    <div class="controls">
+                        <input type="text" id="alice-url"
+                           value=""
+                           placeholder="Your github url..." disabled/>
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <strong id="title-alice"></strong>
+            </div>
+            <div class="span3 alice-right-icons" id="alice-select-issuetype">
+                <div class="btn-group">
+                    <input type="button" class="btn"
+                           id="nullpo-alice-btn-bugs" value="Bugs" disabled />
+                    <input type="button" class="btn"
+                           id="nullpo-alice-btn-open" value="Open" disabled />
+                    <input type="button" class="btn"
+                           id="nullpo-alice-btn-closed" value="Closed" disabled/>
+                    <input type="button" class="btn"
+                           id="nullpo-alice-btn-all" value="All" disabled />
+                </div>
+            </div>
+            <a href="#" class="close">&times;</a>
+        </div>
+    </div>
+    <div id="bottom-alice-issues">
+        <div class="row">
+            <br/>
+            <div class="span11 offset1">
+                <p>Insert your Github URL and click in the type of issue to see it.</p>
+            </div>
+            <div class="span10 offset2">
+                <div class="control-group alice-control-group-repo-url">
+                    <div class="controls">
+                        <div class="input-append">
+                          <input type="text" id="alice-url-firsttime"
+                                class="span7 alice-repoUrl"
+                                   value="https://github.com/Nullpo/FerNet"
+                                   placeholder="Your github url..."/>
+                          <input class="btn" type="button" value="Save" id="nullpo-alice-saveurl"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="bottom-alice-issues-tpl" type="x-tmpl-mustache">
+    <table class="bottom-panel-table table table-striped table-condensed row-highlight">
+        <thead>
+            <tr>
+                <th>Who</th>
+                <th>Issue</th>
+                <th>Labels</th>
+                <th>Milestone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#issues}}
+            <tr>
+                <td style="width:30px">
+                    {{#labels}}
+                        <img src="{{assignee.avatar_url}}" style="width:24px"
+                            class="alice-tooltip" title="{{assignee.1login}}"
+                        />
+                    {{/labels}}
+                </td>
+                <td><a href="{{html_url}}">{{title}}</a></td>
+                <td>
+                    {{#labels}}
+                        <span class="label" style="background-color:#{{color}};color:yellow">{{name}}</span>
+                    {{/labels}}
+                </td>
+                <td>
+                    {{#labels}}
+                        {{#milestone}}
+                            <span class="label label-info">{{milestone.title}} ({{milestone.open_issues}})</span>
+                        {{/milestone}}
+                    {{/labels}}
+                </td>
+            </tr>
+            <tr>
+
+
+
+            </tr>
+            {{/issues}}
+        </tbody>
+    </table>
+</script>
