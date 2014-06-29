@@ -43,62 +43,120 @@ define(function (require, exports, module) {
         BTN_SHOW_ALL    : "nullpo-alice-btn-all"
     }
 
-    var _showIssues = function(button,title,state,type){
-        return function(){
-            var $txtRawUrl = $("#alice-url"),
-                issuesHTML = $("#bottom-alice-issues-tpl").html(),
-                regex = /github.com\/(.*)/g,
-                githubUrl = regex.exec($txtRawUrl.val()),
-                githubContext,
-                url,
-                $buttonsGroup,
-
-
-            regex = /github.com\/(.*)/g
-            githubUrl = regex.exec($("#alice-url").val());
-
-            if(!githubUrl || !githubUrl[1]){
-                //$txtRawUrl.val(lastUrl);
-                $(".alice-control-group-repo-url").removeClass("success")
-                $(".alice-control-group-repo-url").addClass("error")
-                return;
+    var filters = {
+        operators : {
+            UNION : function(filter1,filter2){
+                return function(elem){
+                    return filter1(elem) && filter2(elem);
+                }
             }
+        },
+        issues:{
+            all:function(){ return true},
+            bugs:function(elem){
+                return elem.labels.some(function(obj){
+                    return obj.name == "bug";
+                });
+            },
+            opened : function(elem){
+                return elem.closed_at == null;
+            },
+            closed : function(elem){
+                return elem.closed_at != null;
+            }
+        }
+    }
 
+    var model = {
+        issues: {},
+        time: {}
+    };
 
-            lastUrl = githubUrl;
-            githubContext = githubUrl[1];
-            url ="https://api.github.com/repos/" + githubContext + "/issues?state=" + state;
+    var _setGithubRepository = function(repo,callback){
+        var regex = /github.com\/(.*)/g,
+            githubUrl = regex.exec(repo),
+            githubContext,
+            url;
 
-            // Mustache templates
+        if(!githubUrl || !githubUrl[1]){
+            return false
+        }
+
+        githubContext = githubUrl[1];
+
+        url ="https://api.github.com/repos/" + githubContext + "/issues?state=all";
+        $.getJSON(url,function(data){
+            model.issues = data;
+            model.time = new Date();
+            callback(model.issues);
+        });
+
+        return true;
+    }
+
+    var _setRepository= function(){
+        var $txtRawUrl = $("#alice-url"),
+            issuesHTML = $("#bottom-alice-issues-tpl").html(),
+            isSettingTheRepository = false,
+            $buttonsGroup;
+
+        isSettingTheRepository = _setGithubRepository($txtRawUrl.val(),function(data){
             Mustache.parse(issuesHTML);
-
-            if(type){
-                url += "&labels="+type;
-            }
+            views.panel.issues.buttons.showAll.evt();
+            // Saving it into the cache
+            /*/ Mustache templates
+            Mustache.parse(issuesHTML);
 
             // UI Settings
             $("#title-alice").html(title);
-            $("#bottom-alice-issues").html(i18n.LBL_LOADING);
 
+            $("#"+button).addClass("btn-warning");
+            $("#"+button).removeClass("btn");
+            */
+
+        });
+
+        if(!isSettingTheRepository){
+            $(".alice-control-group-repo-url").removeClass("success")
+            $(".alice-control-group-repo-url").addClass("error")
+            return;
+        } else {
+            $("#title-alice").html(i18n.LBL_LOADING);
             $(".alice-control-group-repo-url").removeClass("success")
             $(".alice-control-group-repo-url").addClass("success")
             $(".alice-control-group-repo-url input").removeAttr("disabled")
+
+            $("#bottom-alice-issues").html(i18n.LBL_LOADING);
+
+            $buttonsGroup = $("#alice-select-issuetype input[type=button]");
+            $buttonsGroup.removeAttr('disabled');
+            $buttonsGroup.addClass("btn");
+            $buttonsGroup.removeClass("btn-warning btn-primary");
+        }
+
+    }
+
+    var _showIssues = function(button,title,state){
+        //panelButtons.BTN_SHOW_CLOSED,i18n.BTN_ISSUES_CLOSE, filters.issues.closed
+        return function(){
+            var issuesHTML = $("#bottom-alice-issues-tpl").html(),
+                rendered,
+                issuesToShow,
+                $buttonsGroup;
+
+            $("#title-alice").html(title);
+            Mustache.parse(issuesHTML);
+            issuesToShow = model.issues.filter(state);
+            rendered = Mustache.render(issuesHTML,{issues:issuesToShow});
+            $("#bottom-alice-issues").html(rendered);
 
             $buttonsGroup = $("#alice-select-issuetype input[type=button]");
             $buttonsGroup.removeAttr('disabled');
             $buttonsGroup.addClass("btn");
             $buttonsGroup.removeClass("btn-warning btn-primary");
 
-            $("#"+button).addClass("btn-warning");
-            $("#"+button).removeClass("btn");
-
-            // Get data from Github
-            $.getJSON(url,function(data){
-                var rendered = Mustache.render(issuesHTML,{issues:data})
-                $("#bottom-alice-issues").html(rendered);
-                $("#"+button).addClass("btn-primary");
-                $("#"+button).removeClass("btn-warning");
-            });
+            $("#"+button).addClass("btn-primary");
+            $("#"+button).removeClass("btn-warning btn");
         }
     }
 
@@ -109,19 +167,19 @@ define(function (require, exports, module) {
                 buttons: {
                     showBugs: {
                         id: panelButtons.BTN_SHOW_BUGS,
-                        evt: _showIssues(panelButtons.BTN_SHOW_BUGS,i18n.BTN_ISSUES_OPEN_BUGS, "open","bug")
+                        evt: _showIssues(panelButtons.BTN_SHOW_BUGS,i18n.BTN_ISSUES_OPEN_BUGS,filters.operators.UNION(filters.issues.bugs,filters.issues.opened))
                     },
                     showOpen: {
                         id:panelButtons.BTN_SHOW_OPENED,
-                        evt: _showIssues(panelButtons.BTN_SHOW_OPENED,i18n.BTN_ISSUES_OPEN, "open")
+                        evt: _showIssues(panelButtons.BTN_SHOW_OPENED,i18n.BTN_ISSUES_OPEN, filters.issues.opened)
                     },
                     showClosed: {
                         id:panelButtons.BTN_SHOW_CLOSED,
-                        evt: _showIssues(panelButtons.BTN_SHOW_CLOSED,i18n.BTN_ISSUES_CLOSE, "closed")
+                        evt: _showIssues(panelButtons.BTN_SHOW_CLOSED,i18n.BTN_ISSUES_CLOSE, filters.issues.closed)
                     },
                     showAll: {
                         id:panelButtons.BTN_SHOW_ALL,
-                        evt: _showIssues(panelButtons.BTN_SHOW_ALL,i18n.BTN_ISSUES_ALL, "all")
+                        evt: _showIssues(panelButtons.BTN_SHOW_ALL,i18n.BTN_ISSUES_ALL, filters.issues.all)
                     }
                 }
             }
@@ -156,7 +214,7 @@ define(function (require, exports, module) {
                 }
                 $("#nullpo-alice-saveurl").click(function(){
                     $("#alice-url").val($("#alice-url-firsttime").val());
-                    buttons.showBugs.evt();
+                    _setRepository();
                 });
 
             }
@@ -175,7 +233,6 @@ define(function (require, exports, module) {
     // Integration with Brackets
 
     CommandManager.register(i18n.MNU_GITHUB, ids.CMD_SHOW_PANEL, togglePanel);
-    //CommandManager.register(i18n.MNU_GITHUB, ids.CMD_SHOW_PANEL, togglePanel);
 
     var $icon = $("<a id='alice-toolbar-button' href='#'>T</a>")
         .attr("title", i18n.BTN_TOGGLE)
