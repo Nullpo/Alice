@@ -98,23 +98,13 @@ define(function (require, exports, module) {
         var $txtRawUrl = $("#alice-url"),
             issuesHTML = $("#bottom-alice-issues-tpl").html(),
             isSettingTheRepository = false,
-            $buttonsGroup;
+            $buttonsGroup,
+            afterSetingRepository = function(data){
+                Mustache.parse(issuesHTML);
+                views.panel.issues.buttons.showAll.evt();
+            };
 
-        isSettingTheRepository = _setGithubRepository($txtRawUrl.val(),function(data){
-            Mustache.parse(issuesHTML);
-            views.panel.issues.buttons.showAll.evt();
-            // Saving it into the cache
-            /*/ Mustache templates
-            Mustache.parse(issuesHTML);
-
-            // UI Settings
-            $("#title-alice").html(title);
-
-            $("#"+button).addClass("btn-warning");
-            $("#"+button).removeClass("btn");
-            */
-
-        });
+        isSettingTheRepository = _setGithubRepository($txtRawUrl.val(),afterSetingRepository);
 
         if(!isSettingTheRepository){
             $(".alice-control-group-repo-url").removeClass("success")
@@ -132,6 +122,8 @@ define(function (require, exports, module) {
             $buttonsGroup.removeAttr('disabled');
             $buttonsGroup.addClass("btn");
             $buttonsGroup.removeClass("btn-warning btn-primary");
+
+            $("#nullpo-alice-btn-refresh").removeAttr("disabled")
         }
 
     }
@@ -214,6 +206,11 @@ define(function (require, exports, module) {
                 }
                 $("#nullpo-alice-saveurl").click(function(){
                     $("#alice-url").val($("#alice-url-firsttime").val());
+                    $("#nullpo-alice-btn-refresh").click(
+                        function(){
+                            _setRepository();
+                        }
+                    );
                     _setRepository();
                 });
 
