@@ -11,13 +11,14 @@ define(function (require, exports, module) {
 
     // Local modules
     var panelHTML   = require("text!panel.html");
+
     ExtensionUtils.loadStyleSheet(module,"main.css");
 
     // Constants
 
     var panel,
         visible = false,
-        lastUrl = "http://github.com/nullpo/FerNet",
+        baseUrl = "http://github.com/nullpo/Alice",
         realVisibility=false;
 
     var i18n = {
@@ -28,7 +29,8 @@ define(function (require, exports, module) {
         BTN_ISSUES_CLOSE     : "Closed issues",
         BTN_ISSUES_ALL       : "All issues",
         BTN_ISSUES_OPEN_BUGS : "Open bugs",
-        LBL_LOADING          : "Loading..."
+        LBL_LOADING          : "Loading...",
+        BTN_ISSUE_DETAIL     : "Detalle"
     }
 
     var ids = {
@@ -63,6 +65,11 @@ define(function (require, exports, module) {
             },
             closed : function(elem){
                 return elem.closed_at != null;
+            },
+            byNumber: function(number){
+                return function(elem){
+                    return elem.number == number;
+                }
             }
         }
     }
@@ -83,8 +90,8 @@ define(function (require, exports, module) {
         }
 
         githubContext = githubUrl[1];
-
-        url ="https://api.github.com/repos/" + githubContext + "/issues?state=all";
+        baseUrl = "https://api.github.com/repos/" + githubContext;
+        url = baseUrl + "/issues?state=all";
         $.getJSON(url,function(data){
             model.issues = data;
             model.time = new Date();
@@ -100,8 +107,7 @@ define(function (require, exports, module) {
             isSettingTheRepository = false,
             $buttonsGroup,
             afterSetingRepository = function(data){
-                Mustache.parse(issuesHTML);
-                views.panel.issues.buttons.showAll.evt();
+                views.issues.buttons.showAll.evt();
             };
 
         isSettingTheRepository = _setGithubRepository($txtRawUrl.val(),afterSetingRepository);
@@ -149,30 +155,54 @@ define(function (require, exports, module) {
 
             $("#"+button).addClass("btn-primary");
             $("#"+button).removeClass("btn-warning btn");
+            $(".alice-get-details").click(function(evt){
+                var $this = $(this);
+                views.issue.buttons.show.evt($this.data("number"))
+            })
         }
     }
 
+    var _showDetail = function(title){
+        return function(number){
+            var issue = model.issues.filter(filters.issues.byNumber(number))[0],
+                detailHTML = $("#bottom-alice-issuedetail-tpl").html();
+            $("#title-alice").html("#" + number + " - " + issue.title);
+            Mustache.parse(detailHTML);
+            $("#bottom-alice-issues").html(i18n.LBL_LOADING);
+
+            $.getJSON(baseUrl + "/issues/"+number+"/comments", function(data){
+                var obj = {issue:issue, comments:data};
+                $("#bottom-alice-issues").html(Mustache.render(detailHTML,obj));
+            });
+        };
+    };
+
     var views = {
-        panel: {
-            issues: {
-                tpl: null,
-                buttons: {
-                    showBugs: {
-                        id: panelButtons.BTN_SHOW_BUGS,
-                        evt: _showIssues(panelButtons.BTN_SHOW_BUGS,i18n.BTN_ISSUES_OPEN_BUGS,filters.operators.UNION(filters.issues.bugs,filters.issues.opened))
-                    },
-                    showOpen: {
-                        id:panelButtons.BTN_SHOW_OPENED,
-                        evt: _showIssues(panelButtons.BTN_SHOW_OPENED,i18n.BTN_ISSUES_OPEN, filters.issues.opened)
-                    },
-                    showClosed: {
-                        id:panelButtons.BTN_SHOW_CLOSED,
-                        evt: _showIssues(panelButtons.BTN_SHOW_CLOSED,i18n.BTN_ISSUES_CLOSE, filters.issues.closed)
-                    },
-                    showAll: {
-                        id:panelButtons.BTN_SHOW_ALL,
-                        evt: _showIssues(panelButtons.BTN_SHOW_ALL,i18n.BTN_ISSUES_ALL, filters.issues.all)
-                    }
+        issues: {
+            buttons: {
+                showBugs: {
+                    id: panelButtons.BTN_SHOW_BUGS,
+                    evt: _showIssues(panelButtons.BTN_SHOW_BUGS,i18n.BTN_ISSUES_OPEN_BUGS,filters.operators.UNION(filters.issues.bugs,filters.issues.opened))
+                },
+                showOpen: {
+                    id:panelButtons.BTN_SHOW_OPENED,
+                    evt: _showIssues(panelButtons.BTN_SHOW_OPENED,i18n.BTN_ISSUES_OPEN, filters.issues.opened)
+                },
+                showClosed: {
+                    id:panelButtons.BTN_SHOW_CLOSED,
+                    evt: _showIssues(panelButtons.BTN_SHOW_CLOSED,i18n.BTN_ISSUES_CLOSE, filters.issues.closed)
+                },
+                showAll: {
+                    id:panelButtons.BTN_SHOW_ALL,
+                    evt: _showIssues(panelButtons.BTN_SHOW_ALL,i18n.BTN_ISSUES_ALL, filters.issues.all)
+                }
+            }
+        },
+        issue : {
+            buttons: {
+                show: {
+                    id: panelButtons.BTN_SHOW_DETAIL,
+                    evt: _showDetail(i18n.BTN_ISSUE_DETAIL)
                 }
             }
         }
@@ -197,10 +227,11 @@ define(function (require, exports, module) {
                     togglePanel();
                 })
                 panel = PanelManager.createBottomPanel("alice-panel", $panel,200);
+
                 $panel.on("panelResizeUpdate", function (e, newSize) {
                     //$("#bottom-alice-content")
                 });
-                var buttons = views.panel.issues.buttons;
+                var buttons = views.issues.buttons;
                 for(var button in buttons){
                     $("#"+ buttons[button].id).click(buttons[button].evt);
                 }

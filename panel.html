@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="span2">
+            <div class="span4">
                 <strong id="title-alice"></strong>
             </div>
             <div class="span3 alice-right-icons" id="alice-select-issuetype">
@@ -46,7 +46,7 @@
                         <div class="input-append">
                           <input type="text" id="alice-url-firsttime"
                                 class="span7 alice-repoUrl"
-                                   value="https://github.com/Nullpo/FerNet"
+                                   value="https://github.com/Nullpo/Alice"
                                    placeholder="Your github url..."/>
                           <input class="btn" type="button" value="Save" id="nullpo-alice-saveurl"/>
                         </div>
@@ -58,7 +58,31 @@
 </div>
 
 <script id="bottom-alice-issuedetail-tpl" type="x-tmpl-mustache">
+    <div class="alice-comments">
+        {{#issue}}
+            <div class="media">
+              <a class="pull-left" href="#">
+                <img class="media-object" style="width:34px" src="{{user.avatar_url}}">
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">{{user.login}} says:</h4>
+                <p>{{body}}</p>
+              </div>
+            </div>
+        {{/issue}}
 
+        {{#comments}}
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" style="width:34px" src="{{user.avatar_url}}">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">{{user.login}} says:</h4>
+            <p>{{body}}</p>
+          </div>
+        </div>
+        {{/comments}}
+    </div>
 </script>
 
 <script id="bottom-alice-issues-tpl" type="x-tmpl-mustache">
@@ -68,6 +92,7 @@
                 <th style="text-align:right">#</th>
                 <th style="text-align:center">Who</th>
                 <th>Issue</th>
+                <th>Status</th>
                 <th>Labels</th>
                 <th>Milestone</th>
             </tr>
@@ -81,11 +106,12 @@
                 <td style="width:30px">
                     {{#labels}}
                         <img src="{{assignee.avatar_url}}" style="width:24px"
-                            class="alice-tooltip" title="{{assignee.1login}}"
+                            class="alice-tooltip" title="{{assignee.login}}"
                         />
                     {{/labels}}
                 </td>
-                <td><a href="{{html_url}}">{{title}}</a></td>
+                <td><a href="#" class="alice-get-details" data-number="{{number}}">{{title}}</a></td>
+                <td><a href="#">{{state}}</a></td>
                 <td>
                     {{#labels}}
                         <span class="label" style="background-color:#{{color}};color:yellow">{{name}}</span>
@@ -98,11 +124,6 @@
                         {{/milestone}}
                     {{/labels}}
                 </td>
-            </tr>
-            <tr>
-
-
-
             </tr>
             {{/issues}}
         </tbody>

@@ -7,3 +7,21 @@
 .alice-toolbar {
     height:30px !important
 }
+
+.alice-comments {
+    margin-left:20px;
+    margin-top:5px;
+}
+
+.alice-comments .media-object{
+    border: 1px solid grey;
+    margin-top:5px;
+}
+
+.alice-comments .media:nth-child(odd){
+    background-color: #e6e9e9;
+}
+
+.alice-comments .media:nth-child(even){
+    background-color: #dfe2e2;
+}
