@@ -65,7 +65,8 @@
     <table class="bottom-panel-table table table-striped table-condensed row-highlight">
         <thead>
             <tr>
-                <th>Who</th>
+                <th style="text-align:right">#</th>
+                <th style="text-align:center">Who</th>
                 <th>Issue</th>
                 <th>Labels</th>
                 <th>Milestone</th>
@@ -74,6 +75,9 @@
         <tbody>
             {{#issues}}
             <tr>
+                <td style="width:20px;text-align:right">
+                    {{number}}
+                </td>
                 <td style="width:30px">
                     {{#labels}}
                         <img src="{{assignee.avatar_url}}" style="width:24px"
