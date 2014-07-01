@@ -3,7 +3,7 @@ define(function (require, exports, module) {
     var PanelView = require("src/panelView"),
         i18n = require("src/i18n").i18n,
         filters = require("src/utils").filters,
-        panelHTML = require("text!issuePanel.html"),
+        panelHTML = require("text!templates/panels/issuePanel.html"),
         clazz = this,
         panelButtons = {
         BTN_SHOW_BUGS   : "nullpo-alice-btn-bugs",

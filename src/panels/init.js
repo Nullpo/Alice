@@ -1,10 +1,9 @@
 define(function (require, exports, module) {
 
-    var PanelView = require("src/panelView");
-    var i18n = require("src/i18n").i18n;
-    var filters = require("src/utils").filters;
-    var clazz = this;
-    var panelHTML   = require("text!panel.html");
+    var PanelView   = require("src/panelView"),
+        i18n        = require("src/i18n").i18n;
+        filters     = require("src/utils").filters
+        panelHTML   = require("text!templates/panels/init.html");
 
     var panelButtons = {
         BTN_SHOW_BUGS   : "nullpo-alice-btn-bugs",
@@ -44,6 +43,13 @@ define(function (require, exports, module) {
 
                 $("#"+button).addClass("btn-primary");
                 $("#"+button).removeClass("btn-warning btn");
+                //TODO: Details
+                //TODO: Details
+                //TODO: Details
+                //TODO: Details
+                //TODO: Details
+                //TODO: Details
+                //TODO: Details
                 //TODO: Details
                 $(".alice-get-details").click(function(evt){
                     var $this = $(this);

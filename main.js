@@ -10,8 +10,7 @@ define(function (require, exports, module) {
         CommandManager = brackets.getModule("command/CommandManager");
 
     // Local modules
-    var panelHTML   = require("text!panel.html"),
-        AliceUtils  = require("src/utils"),
+    var AliceUtils  = require("src/utils"),
         i18n = require("src/i18n").i18n,
         PanelContentManager = require("src/panels/panelContentManager"),
         InitPanel = require("src/panels/init"),
