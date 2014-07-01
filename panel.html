@@ -57,34 +57,6 @@
     </div>
 </div>
 
-<script id="bottom-alice-issuedetail-tpl" type="x-tmpl-mustache">
-    <div class="alice-comments">
-        {{#issue}}
-            <div class="media">
-              <a class="pull-left" href="#">
-                <img class="media-object" style="width:34px" src="{{user.avatar_url}}">
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading"><a href="{{user.html_url}}">{{user.login}}</a> says:</h4>
-                <p>{{body}}</p>
-              </div>
-            </div>
-        {{/issue}}
-
-        {{#comments}}
-        <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" style="width:34px" src="{{user.avatar_url}}">
-          </a>
-          <div class="media-body">
-            <h4 class="media-heading"><a href="{{user.html_url}}">{{user.login}}</a> says:</h4>
-            <p>{{body}}</p>
-          </div>
-        </div>
-        {{/comments}}
-    </div>
-</script>
-
 <script id="bottom-alice-issues-tpl" type="x-tmpl-mustache">
     <table class="bottom-panel-table table table-striped table-condensed row-highlight">
         <thead>
