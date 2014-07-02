@@ -47,7 +47,7 @@ define(function (require, exports, module) {
 
         githubContext = githubUrl[1];
         self.baseUrl = "https://api.github.com/repos/" + githubContext;
-        url = self.baseUrl + "/issues?state=all";
+        url = self.baseUrl + "/issues?state=all&per_page=100";
         self._requestStarted(url);
         $.getJSON(url,function(data){
             self.data.issues = data;
@@ -60,7 +60,7 @@ define(function (require, exports, module) {
     }
 
     exports.issueDetail = function(number,callback){
-        var url = self.baseUrl + "/issues/"+number+"/comments";
+        var url = self.baseUrl + "/issues/"+number+"/comments&per_page=100";
         self._requestStarted(url);
         $.getJSON(url, function(data){
             self._requestSuccess(data);
