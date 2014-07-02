@@ -25,7 +25,7 @@ define(function (require, exports, module) {
             controller : undefined
         };
 
-        self.view = // First time!
+        self.view = undefined; // First time!
 
         self.panels = {};
 

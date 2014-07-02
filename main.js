@@ -20,6 +20,7 @@ define(function (require, exports, module) {
 
     ExtensionUtils.loadStyleSheet(module,"main.css");
 
+
     // Constants
 
     var panel,
@@ -49,6 +50,7 @@ define(function (require, exports, module) {
     Model.onStartRequest(function(){
         self.isBusy = true;
         self.icon.changeState("busy");
+        $(".alice-background-logo").addClass("more-transparent");
         return true;
     });
 
@@ -65,9 +67,6 @@ define(function (require, exports, module) {
         name: "alice-panel",
         minWidth : 200
     });
-
-
-
 
     contentManager.addPanel("init",initPanel);
     contentManager.addPanel("detailIssue",detailIssuePanel);
