@@ -60,7 +60,7 @@ define(function (require, exports, module) {
     }
 
     exports.issueDetail = function(number,callback){
-        var url = self.baseUrl + "/issues/"+number+"/comments&per_page=100";
+        var url = self.baseUrl + "/issues/"+number+"/comments?per_page=100";
         self._requestStarted(url);
         $.getJSON(url, function(data){
             self._requestSuccess(data);
