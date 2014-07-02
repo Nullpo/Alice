@@ -23,6 +23,17 @@ define(function (require, exports, module) {
         self.contentManager = undefined;
         self.model = model;
 
+        model.onSuccessRequest(function(){
+            $(".alice-background-logo").removeClass("busy");
+            return true;
+        });
+
+        model.onStartRequest(function(){
+            $(".alice-background-logo").addClass("busy");
+            return true;
+        });
+
+
         self._filter = function(button,title,state){
             return function(){
                 var issuesHTML = $("#bottom-alice-issues-tpl").html(),
@@ -34,7 +45,7 @@ define(function (require, exports, module) {
                 Mustache.parse(issuesHTML);
                 issuesToShow = self.model.data.issues.filter(state);
                 rendered = Mustache.render(issuesHTML,{issues:issuesToShow});
-                $("#bottom-alice-issues").html(rendered);
+                $("#bottom-alice-issues > .alice-bottom-content").html(rendered);
 
                 $buttonsGroup = $("#alice-select-issuetype input[type=button]");
                 $buttonsGroup.removeAttr('disabled');
@@ -69,14 +80,14 @@ define(function (require, exports, module) {
             if(!isSettingTheRepository){
                 $(".alice-control-group-repo-url").removeClass("success")
                 $(".alice-control-group-repo-url").addClass("error")
-                return;
+                return false;
             } else {
                 $("#title-alice").html(i18n.LBL_LOADING);
                 $(".alice-control-group-repo-url").removeClass("success")
                 $(".alice-control-group-repo-url").addClass("success")
                 $(".alice-control-group-repo-url input").removeAttr("disabled")
 
-                $("#bottom-alice-issues").html(i18n.LBL_LOADING);
+                $("#bottom-alice-issues > .alice-bottom-content").html(i18n.LBL_LOADING);
 
                 $buttonsGroup = $("#alice-select-issuetype input[type=button]");
                 $buttonsGroup.removeAttr('disabled');
@@ -84,6 +95,7 @@ define(function (require, exports, module) {
                 $buttonsGroup.removeClass("btn-warning btn-primary");
 
                 $("#nullpo-alice-btn-refresh").removeAttr("disabled");
+                return true;
             }
         }
 
@@ -107,6 +119,7 @@ define(function (require, exports, module) {
         }
 
         self.show = function($panel){
+            var $btnSaveUrl = $("#nullpo-alice-saveurl");
             $panel.find(".close").click(function(){
                 self.contentManager.toggle();
             });
@@ -117,15 +130,31 @@ define(function (require, exports, module) {
                 $("#"+ buttons[button].id).click(buttons[button].evt);
             }
 
-            $("#nullpo-alice-saveurl").click(function(){
+            $btnSaveUrl.click(function(){
                 $("#alice-url").val($("#alice-url-firsttime").val());
                 $("#nullpo-alice-btn-refresh").click(
                     function(){
-                        self._setRepository();
+                        self._setRepository()
                     }
                 );
-                self._setRepository();
+                if(self._setRepository())
+                    $(".alice-background-logo").addClass("more-transparent");
             });
+
+            var saveOnEnter = function(e){
+                if (e.keyCode == 13) {
+                    $btnSaveUrl.click();
+                }
+            };
+
+            var refreshOnEnter = function(e){
+                if (e.keyCode == 13) {
+                    $("#nullpo-alice-btn-refresh").click();
+                }
+            };
+
+            $("#alice-url-firsttime").keydown(saveOnEnter);
+            $("#alice-url").keydown(refreshOnEnter);
         }
 
         self.beforeHide = function(){

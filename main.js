@@ -49,11 +49,13 @@ define(function (require, exports, module) {
     Model.onStartRequest(function(){
         self.isBusy = true;
         self.icon.changeState("busy");
+        return true;
     });
 
     Model.onSuccessRequest(function(){
         self.isBusy = false;
         self.icon.changeState(self.state);
+        return true;
     });
 
     var initPanel = InitPanel.create(Model);

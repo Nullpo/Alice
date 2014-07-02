@@ -2,12 +2,78 @@
     background-image: url( 'images/logo.svg' );
 }
 
+.alice-background-logo {
+    background-image: url('images/logo.svg' );
+    background-clip: 0 24px;
+    background-repeat: repeat;
+    background-size: 98px;
+    position: absolute;
+    bottom: 37px;
+    right: 15px;
+    width: 90px;
+    height: 94px;
+    -webkit-transform: rotate(-35deg);
+    background-color: rgba(255,255,255,0.1);
+    opacity: 0.2;
+    background-position: -11px -117px;
+}
+
+@-webkit-keyframes alice-rotate-background-logo {
+   from {
+     -webkit-transform: rotate(-20deg);
+   }
+   to {
+     -webkit-transform: rotate(-50deg);
+   }
+}
+
+.alice-background-logo.more-transparent {
+    opacity: 0.1;
+}
+
+.alice-background-logo.busy {
+    opacity: 0.4!important;
+    background-position: -11px -223px;
+    -webkit-animation-name: alice-rotate-background-logo;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
 .alice-toolbar-open{
     background-position: 0 -24px;
 }
 
 .alice-toolbar-loading{
     background-position: 0 -48px;
+    -webkit-animation-name: alice-rotate-toolbar-icon;
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 1.0s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes alice-rotate-toolbar-icon {
+    0% {
+     -webkit-transform: rotate(-10deg);
+    }
+    10% {
+       -webkit-transform: rotate(10deg);
+    }
+    20% {
+       -webkit-transform: rotate(-10deg);
+    }
+    30% {
+        -webkit-transform: rotate(10deg);
+    }
+    40% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+    }
+
 }
 
 .alice-right-icons {
