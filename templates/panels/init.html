@@ -80,12 +80,10 @@
                     <a href="{{html_url}}">{{number}}</a>
                 </td>
                 <td style="width:30px">
-                    {{#labels}}
-                        <a href="{{assignee.html_url}}">
-                            <img src="{{assignee.avatar_url}}" style="width:24px"
-                                class="alice-tooltip" title="{{assignee.login}}"/>
-                        </a>
-                    {{/labels}}
+                    <a href="{{assignee.html_url}}">
+                        <img src="{{assignee.avatar_url}}" style="width:24px"
+                            class="alice-tooltip" title="{{assignee.login}}"/>
+                    </a>
                 </td>
                 <td><a href="#" class="alice-get-details" data-number="{{number}}">{{title}}</a></td>
                 <td><a href="#">{{state}}</a></td>
@@ -95,11 +93,12 @@
                     {{/labels}}
                 </td>
                 <td>
-                    {{#labels}}
-                        {{#milestone}}
-                            <span class="label label-info">{{milestone.title}} ({{milestone.open_issues}})</span>
-                        {{/milestone}}
-                    {{/labels}}
+                    {{#milestone}}
+                        <span class="label label-info">
+                            {{milestone.title}} ({{milestone.open_issues}})
+                        </span>
+                    {{/milestone}}
+
                 </td>
             </tr>
             {{/issues}}
