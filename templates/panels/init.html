@@ -73,13 +73,14 @@
             {{#issues}}
             <tr>
                 <td style="width:20px;text-align:right">
-                    {{number}}
+                    <a href="{{html_url}}">{{number}}</a>
                 </td>
                 <td style="width:30px">
                     {{#labels}}
-                        <img src="{{assignee.avatar_url}}" style="width:24px"
-                            class="alice-tooltip" title="{{assignee.login}}"
-                        />
+                        <a href="{{assignee.html_url}}">
+                            <img src="{{assignee.avatar_url}}" style="width:24px"
+                                class="alice-tooltip" title="{{assignee.login}}"/>
+                        </a>
                     {{/labels}}
                 </td>
                 <td><a href="#" class="alice-get-details" data-number="{{number}}">{{title}}</a></td>
