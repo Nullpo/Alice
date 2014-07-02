@@ -16,6 +16,9 @@ define(function (require, exports, module) {
         var self = this;
         self.name = props.name,
         self.minWidth = props.minWidth;
+        self._events = {
+            onToggle: function(){}
+        }
 
         self._actualPanel = {
             view : undefined,
@@ -51,7 +54,12 @@ define(function (require, exports, module) {
             if(!actualPanel.view){
                 self._firstTimeToggle();
             }
-            actualPanel.view.togglePanel();
+            var isVisible = actualPanel.view.togglePanel();
+            self._events.onToggle(isVisible);
+        }
+
+        self.onToggle = function(f){
+            self._events.onToggle = f;
         }
 
         self.addPanel = function(name,panel){

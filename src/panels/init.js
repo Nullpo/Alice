@@ -43,14 +43,7 @@ define(function (require, exports, module) {
 
                 $("#"+button).addClass("btn-primary");
                 $("#"+button).removeClass("btn-warning btn");
-                //TODO: Details
-                //TODO: Details
-                //TODO: Details
-                //TODO: Details
-                //TODO: Details
-                //TODO: Details
-                //TODO: Details
-                //TODO: Details
+
                 $(".alice-get-details").click(function(evt){
                     var $this = $(this);
                     self.contentManager.changeTo("detailIssue",$this.data("number"));

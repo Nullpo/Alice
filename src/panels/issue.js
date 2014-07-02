@@ -27,7 +27,7 @@ define(function (require, exports, module) {
             $("#title-alice").html("#" + number + " - " + issue.title);
             Mustache.parse(detailHTML);
             $("#bottom-alice-issues").html(i18n.LBL_LOADING);
-            $.getJSON(baseUrl + "/issues/"+number+"/comments", function(data){
+            self.model.issueDetail(number,function(data){
                 var obj = {issue:issue, comments:data};
                 $("#bottom-alice-issues").html(Mustache.render(detailHTML,obj));
             });

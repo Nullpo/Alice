@@ -15,7 +15,8 @@ define(function (require, exports, module) {
         PanelContentManager = require("src/panels/panelContentManager"),
         InitPanel = require("src/panels/init"),
         Model = require("src/model"),
-        DetailIssuePanel = require("src/panels/issue");
+        DetailIssuePanel = require("src/panels/issue"),
+        Toolbar = require("src/toolbar");
 
     ExtensionUtils.loadStyleSheet(module,"main.css");
 
@@ -23,14 +24,37 @@ define(function (require, exports, module) {
 
     var panel,
         visible = false,
-        baseUrl = "http://github.com/nullpo/Alice",
         realVisibility=false,
-        filters = AliceUtils.filters;
+        filters = AliceUtils.filters,
+        self = this;
 
     var ids = {
         MNU_TRACKING      : "nullpo.alice",
         CMD_SHOW_PANEL    : "nullpo.alice.showPanel"
     }
+
+
+    self.icon = Toolbar.ToolbarIcon.createIcon({
+        defaultCssClass:"alice-icon",
+        title: i18n.BTN_TOGGLE,
+        id: "alice-toolbar-button"
+    });
+
+    self.icon.addState("open","alice-toolbar-open");
+    self.icon.addState("busy","alice-toolbar-loading");
+    self.icon.putInToolbar();
+    self.state = "default";
+    self.isBusy = false;
+
+    Model.onStartRequest(function(){
+        self.isBusy = true;
+        self.icon.changeState("busy");
+    });
+
+    Model.onSuccessRequest(function(){
+        self.isBusy = false;
+        self.icon.changeState(self.state);
+    });
 
     var initPanel = InitPanel.create(Model);
     var detailIssuePanel = DetailIssuePanel.create(Model);
@@ -40,15 +64,27 @@ define(function (require, exports, module) {
         minWidth : 200
     });
 
+
+
+
     contentManager.addPanel("init",initPanel);
     contentManager.addPanel("detailIssue",detailIssuePanel);
 
     CommandManager.register(i18n.MNU_GITHUB, ids.CMD_SHOW_PANEL, contentManager.toggle);
 
-    var $icon = $("<a id='alice-toolbar-button' href='#'>T</a>")
-        .attr("title", i18n.BTN_TOGGLE)
-        .appendTo($("#main-toolbar .buttons"));
+    contentManager.onToggle(function(isVisible){
 
-    $icon.on("click", contentManager.toggle);
+        if(isVisible){
+            self.state = "open";
+        } else {
+            self.state = "default";
+        }
+
+        if(!self.isBusy){
+            self.icon.changeState(self.state);
+        }
+    });
+
+    self.icon.on("click", contentManager.toggle);
 
 });

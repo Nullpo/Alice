@@ -14,12 +14,12 @@ define(function (require, exports, module) {
 
         self.togglePanel = function(){
             self._visible = !self._visible
-            self._setPanelVisibility(self._visible);
+            return self._setPanelVisibility(self._visible);
         }
 
         self._setPanelVisibility = function(isVisible){
             if (isVisible === self._realVisibility) {
-                return;
+                return self._realVisibility;
             }
 
             self._realVisibility = isVisible;
@@ -39,6 +39,7 @@ define(function (require, exports, module) {
             } else {
                 self.panel.hide();
             }
+            return self._realVisibility;
         }
     };
 
