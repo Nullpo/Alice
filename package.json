@@ -3,7 +3,7 @@
     "title": "Alice issue tracker (for github)",
     "description": "See all your issues from Github with Alice issue tracker.",
     "homepage": "https://github.com/Nullpo/Alice",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "author": "Pablo codeiro <cutrix2k@gmail.com> (http://www.pablocodeiro.com)",
     "license": "DWTFPL",
     "engines": {
