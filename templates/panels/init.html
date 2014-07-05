@@ -37,36 +37,41 @@
     <div class="table-container resizable-content" id="bottom-alice-issues">
         <div class="alice-background-logo"></div>
         <div class="alice-bottom-content">
-            <div class="row">
-                <br/>
-                <div class="span11 offset1">
-                    <p>Insert your Github URL and click in the type of issue to see it.</p>
-                </div>
-                <div class="span10 offset2">
-                    <div class="control-group alice-control-group-repo-url">
-                        <div class="controls">
-                            <div class="input-append">
-                              <input type="text" id="alice-url-firsttime"
-                                    class="span7 alice-repoUrl"
-                                       value="https://github.com/Nullpo/Alice"
-                                       placeholder="Your github url..."/>
-                              <input class="btn" type="button"
-                                     value="Save" id="nullpo-alice-saveurl"/>
-                            </div>
-                        </div>
+
+        </div>
+    </div>
+</div>
+
+<script id="bottom-alice-notfound-tpl" type="x-tmpl-mustache">
+    <div class="row">
+        <br/>
+        <div class="span11 offset1">
+            <p>Insert your Github URL and click in the type of issue to see it.</p>
+        </div>
+        <div class="span10 offset2">
+            <div class="control-group alice-control-group-repo-url">
+                <div class="controls">
+                    <div class="input-append">
+                      <input type="text" id="alice-url-firsttime"
+                            class="span7 alice-repoUrl"
+                               value="https://github.com/Nullpo/Alice"
+                               placeholder="Your github url..."/>
+                      <input class="btn" type="button"
+                             value="Save" id="nullpo-alice-saveurl"/>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</script>
 
 <script id="bottom-alice-issues-tpl" type="x-tmpl-mustache">
     <table class="bottom-panel-table table table-striped table-condensed row-highlight">
         <thead>
             <tr>
                 <th style="text-align:right">#</th>
-                <th style="text-align:center">Who</th>
+                <th style="text-align:center">Creator</th>
+                <th style="text-align:center">Asignee</th>
                 <th>Issue</th>
                 <th>Status</th>
                 <th>Labels</th>
@@ -77,7 +82,13 @@
             {{#issues}}
             <tr>
                 <td style="width:20px;text-align:right">
-                    <a href="{{html_url}}">{{number}}</a>
+                    <a href="{{html_url}}">#{{number}}</a>
+                </td>
+                <td style="width:30px">
+                    <a href="{{user.html_url}}">
+                        <img src="{{user.avatar_url}}" style="width:24px"
+                            class="alice-tooltip" title="{{user.login}}"/>
+                    </a>
                 </td>
                 <td style="width:30px">
                     <a href="{{assignee.html_url}}">
