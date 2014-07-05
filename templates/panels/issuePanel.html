@@ -6,8 +6,13 @@
                 <img class="media-object" style="width:34px" src="{{user.avatar_url}}">
               </a>
               <div class="media-body">
-                <h4 class="media-heading"><a href="{{html_url}}">{{user.login}} said:</a></h4>
-                <p><pre>{{body}}<pre></p>
+                {{#body}}
+                    <h4 class="media-heading"><a href="{{html_url}}">{{user.login}}</a> created the issue and said:</h4>
+                    <p><pre>{{body}}</pre></p>
+                {{/body}}
+                {{^body}}
+                    <h4 class="media-heading"><a href="{{html_url}}">{{user.login}}</a> created the issue with no comments.</h4>
+                {{/body}}
               </div>
             </div>
         {{/issue}}
