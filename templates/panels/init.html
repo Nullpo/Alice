@@ -4,7 +4,7 @@
             <div class="span1">
                 <div class="btn-group">
                     <input type="button" class="btn"
-                       id="nullpo-alice-btn-refresh" value="Refresh" disabled/>
+                       id="nullpo-alice-btn-refresh" value="Refresh"/>
                 </div>
             </div>
             <div class="span3">
@@ -12,23 +12,33 @@
                     <div class="controls">
                         <input type="text" id="alice-url"
                            value=""
-                           placeholder="Your github url..." disabled/>
+                           placeholder="Your github url..."/>
                     </div>
                 </div>
             </div>
-            <div class="span4">
+            <div class="span3">
                 <strong id="title-alice"></strong>
             </div>
-            <div class="span3 alice-right-icons" id="alice-select-issuetype">
+            <div class="span4 alice-right-icons" id="alice-select-issuetype">
                 <div class="btn-group">
-                    <input type="button" class="btn"
-                           id="nullpo-alice-btn-bugs" value="Bugs" disabled />
-                    <input type="button" class="btn"
-                           id="nullpo-alice-btn-open" value="Open" disabled />
-                    <input type="button" class="btn"
-                           id="nullpo-alice-btn-closed" value="Closed" disabled/>
-                    <input type="button" class="btn"
-                           id="nullpo-alice-btn-all" value="All" disabled />
+                    <button class="btn" id="nullpo-alice-btn-bugs">
+                        <i class="octicon octicon-bug"></i>
+                    </button>
+                    <button class="btn" id="nullpo-alice-btn-open">
+                        <i class="octicon octicon-issue-opened"></i>
+                        Open
+                    </button>
+                    <button class="btn" id="nullpo-alice-btn-closed">
+                        <i class="octicon octicon-issue-closed"></i>
+                        Closed
+                    </button>
+                    <button class="btn" id="nullpo-alice-btn-all">
+                        <i class="octicon octicon-list-unordered"></i>
+                        All
+                    </button>
+                    <button class="btn" id="nullpo-alice-btn-settings">
+                        <i class="octicon octicon-tools"></i>
+                    </button>
                 </div>
             </div>
             <a href="#" class="close">&times;</a>
@@ -41,6 +51,26 @@
         </div>
     </div>
 </div>
+
+<script id="alice-settings-dialog-tpl" type="x-tmpl-mustache">
+    <div id="myModal" class="modal">
+        <div class="modal-header">
+            <h1 class="dialog-title">Settings</h1>
+        </div>
+        <!-- dialog contents -->
+        <div class="modal-body">
+            <p>For a better experience, please provide us your Personal access token.</p>
+            <p>You can get a new Personal access token from <a href="https://github.com/settings/applications#personal-access-tokens">here</a>
+            </p>
+            <input type="text" class="span4 alice accessToken" value="{{token}}" />
+            <span class="alice lblTest"></span>
+        </div>
+        <!-- dialog buttons -->
+        <div class="modal-footer">
+            <a href="#" class="btn primary">Test & Save</a>
+        </div>
+    </div>
+</script>
 
 <script id="bottom-alice-notfound-tpl" type="x-tmpl-mustache">
     <div class="row">
@@ -63,56 +93,4 @@
             </div>
         </div>
     </div>
-</script>
-
-<script id="bottom-alice-issues-tpl" type="x-tmpl-mustache">
-    <table class="bottom-panel-table table table-striped table-condensed row-highlight">
-        <thead>
-            <tr>
-                <th style="text-align:right">#</th>
-                <th style="text-align:center">Creator</th>
-                <th style="text-align:center">Asignee</th>
-                <th>Issue</th>
-                <th>Status</th>
-                <th>Labels</th>
-                <th>Milestone</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#issues}}
-            <tr>
-                <td style="width:20px;text-align:right">
-                    <a href="{{html_url}}">#{{number}}</a>
-                </td>
-                <td style="width:30px">
-                    <a href="{{user.html_url}}">
-                        <img src="{{user.avatar_url}}" style="width:24px"
-                            class="alice-tooltip" title="{{user.login}}"/>
-                    </a>
-                </td>
-                <td style="width:30px">
-                    <a href="{{assignee.html_url}}">
-                        <img src="{{assignee.avatar_url}}" style="width:24px"
-                            class="alice-tooltip" title="{{assignee.login}}"/>
-                    </a>
-                </td>
-                <td><a href="#" class="alice-get-details" data-number="{{number}}">{{title}}</a></td>
-                <td><a href="#">{{state}}</a></td>
-                <td>
-                    {{#labels}}
-                        <span class="label" style="background-color:#{{color}};color:yellow">{{name}}</span>
-                    {{/labels}}
-                </td>
-                <td>
-                    {{#milestone}}
-                        <span class="label label-info">
-                            {{milestone.title}} ({{milestone.open_issues}})
-                        </span>
-                    {{/milestone}}
-
-                </td>
-            </tr>
-            {{/issues}}
-        </tbody>
-    </table>
 </script>

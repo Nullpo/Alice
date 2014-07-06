@@ -11,10 +11,12 @@ define(function (require, exports, module) {
     self.projectManager = ProjectManager;
     self.fileSystem = FileSystem;
     self.fileUtils = FileUtils;
-
+    self.repositoryHandlers = [];
     self.data = {
         issues: {},
-        time: {}
+        time: {},
+        hasBeenLoaded : false,
+        accessToken : undefined
     };
 
     self.baseUrl = "";
@@ -22,7 +24,8 @@ define(function (require, exports, module) {
 
     self._observers = {
         onStartRequest: [],
-        onSuccessRequest : []
+        onSuccessRequest : [],
+        onFailRequest    : []
     }
 
     self.onStartRequest = function(f){
@@ -31,6 +34,10 @@ define(function (require, exports, module) {
 
     self.onSuccessRequest = function(f){
         self._observers.onSuccessRequest.push(f);
+    };
+
+    self.onFailRequest = function(f){
+        self._observers.onFailRequest.push(f);
     };
 
     self._requestStarted = function(query){
@@ -45,43 +52,11 @@ define(function (require, exports, module) {
         })
     }
 
-    exports.setGithubRepository = function(repo,callback){
-        var regex = /github.com\/(.*)/g,
-            githubUrl = regex.exec(repo),
-            githubContext,
-            url;
-
-        if(!githubUrl || !githubUrl[1]){
-            return false
-        }
-        self.rawUrl = repo;
-        githubContext = githubUrl[1];
-        self.baseUrl = "https://api.github.com/repos/" + githubContext;
-        url = self.baseUrl + "/issues?state=all&per_page=100";
-        self._requestStarted(url);
-
-        $.getJSON(url,function(data){
-            self.data.issues = data;
-            self.data.time = new Date();
-            self._requestSuccess(self.data);
-            callback(self.data.issues);
-        });
-
-        return self.baseUrl;
-    }
-
-    exports.issueDetail = function(number,callback){
-        var url = self.baseUrl + "/issues/"+number+"/comments?per_page=100";
-        self._requestStarted(url);
-        $.getJSON(url, function(data){
-            self._requestSuccess(data);
-            callback(data);
+    self._requestFail = function(err,code) {
+        self._observers.onFailRequest.every(function(elem){
+            return elem(err, code);
         });
     }
-
-    exports.onStartRequest = self.onStartRequest;
-    exports.onSuccessRequest = self.onSuccessRequest;
-    exports.data = this.data
 
     //ProjectManager.projectRefresh
     self._getProjectRepositoryFromFile = function(callback) {
@@ -109,19 +84,100 @@ define(function (require, exports, module) {
 
                 if(repo){
                     callback("https://github.com/"+repo);
-                    return false;
                 } else {
-                    return false;
+                    callback(undefined,undefined,"NotGithub");
                 }
+                return false;
+            }).fail(function(a,b,c){
+                callback(undefined,undefined,a);
             });
         }
     }
 
+    self.repositoryHandlers.push(function(data){
+        var repo = data.repository,
+            done = data.done,
+            fail = data.fail,
+            regex = /github.com\/(.*)/g,
+            githubUrl = regex.exec(data.repository),
+            githubContext,
+            url;
+
+        console.log("Setting the new github repository: " + repo);
+
+        if(!githubUrl || !githubUrl[1]){
+            console.log("The URL is not a Github repository!" + repo);
+            return false
+        }
+
+        self.rawUrl = repo;
+        githubContext = githubUrl[1];
+        self.baseUrl = "https://api.github.com/repos/" + githubContext;
+        url = self.baseUrl + "/issues?state=all&per_page=100";
+        if(self.data.accessToken){
+            url += "&access_token=" + self.data.accessToken;
+        } else {
+            console.warn("The user doesn't have any acces token!");
+        }
+
+
+        self._requestStarted(url);
+
+        $.getJSON(url,function(data){
+            self.data.issues = data;
+            self.data.time = new Date();
+            self._requestSuccess(self.data);
+            done(self.data.issues);
+        }).fail(function(jqxhr, textStatus, error ){
+            self.data.hasBeenLoaded = false;
+            self._requestFail(url, jqxhr.status);
+            fail(url, jqxhr.status);
+        });
+
+        return self.baseUrl;
+    })
+
+    self.issueDetail = function(number,callback){
+        var url = self.baseUrl + "/issues/"+number+"/comments?per_page=100";
+        if(self.data.accessToken){
+            url += "&access_token=" + self.data.accessToken;
+        } else {
+            console.warn("The user doesn't have any acces token!");
+        }
+        self._requestStarted(url);
+        $.getJSON(url, function(data){
+            self._requestSuccess(data);
+            callback(data);
+        }).fail(function(jqxhr, textStatus, error ){
+            self._requestFail(url, jqxhr.status);
+        });
+    };
+
+    self.setRepository = function(data) {
+        return self.repositoryHandlers.every(function(f){
+          return !f(data);
+        });
+    }
+
+    exports.issueDetail = self.issueDetail;
+    exports.setRepository = self.setRepository;
+    exports.onStartRequest = self.onStartRequest;
+    exports.onSuccessRequest = self.onSuccessRequest;
+    exports.data = this.data;
     exports.getRawUrl = function(){
         return self.rawUrl;
     }
+    exports.testConnection = function(data){
+        var token = data.token,
+            done = data.done,
+            fail = data.fail;
 
-    exports.onRefresh = function(callback){
+        $.getJSON("https://api.github.com/?access_token=" + token)
+            .success(done)
+            .fail(fail);
+    }
+
+    exports.onRefreshProject = function(callback){
         if(self.projectManager.getProjectRoot())
             self._getProjectRepositoryFromFile(callback)();
 
