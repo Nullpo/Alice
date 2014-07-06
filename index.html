@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Alice Github issue tracker by Nullpo</title>
+    <title>Alice issue tracker by Nullpo</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -12,22 +12,12 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-52490113-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
   </head>
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header"><img src="images/bigLogo.svg" style="border:0px solid;width:100px;margin-bottom:-20px"/></h1>
-        <p class="header">Alice Github Issue Tracker</p>
+        <h1 class="header">Alice issue tracker</h1>
+        <p class="header">Follow your Github Issues without leaving Brackets IDE</p>
 
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/Nullpo/Alice/zipball/master">Download ZIP</a></li>
@@ -40,27 +30,81 @@
 
       </header>
       <section>
-        <h3>Follow your Github Issues without leaving Brackets IDE.</h3>
+        <h1>
+<a name="alice-issue-tracker-for-brackets" class="anchor" href="#alice-issue-tracker-for-brackets"><span class="octicon octicon-link"></span></a>Alice Issue Tracker for Brackets</h1>
 
-<p>This Bracket's extension shows you all the issues from a Github repository. It is under development, so if you have bugs or new ideas, let me know in the brackets-dev google group, or throught a new issue: <a href="https://github.com/Nullpo/Alice" >https://github.com/Nullpo/Alice</a></p>
-<p>To install it, you can do it from the Extensions manager of Brackets. Or you can install it manually cloning the repo:</p>
-          
+<p>This Bracket's extension shows you all the issues from a Github repository. It is under development, so if you have bugs or new ideas let me know in the brackets-dev google group, or throught a new issue: <a href="https://github.com/Nullpo/Alice">https://github.com/Nullpo/Alice</a></p>
+
+<p>To install it, you can download Alice with the Extensions manager of Brackets. Or you can install it manually cloning this repository:</p>
+
 <pre><code>$ cd $BRACKETS_HOME/extensions/user
 $ git clone git@github.com:Nullpo/Alice.git
 </code></pre>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>First steps</h3>
+<h2>
+<a name="first-steps" class="anchor" href="#first-steps"><span class="octicon octicon-link"></span></a>First steps</h2>
 
 <p>After installing Alice, you can see the Alice icon in the toolbar on your right:</p>
-<p><img src="images/img1.png" /></p>
-<p>Click it, and now you see the Alice panel:</p>
-<p><img src="images/img2.png" /></p>
-<p>Now, put the URL of your github repository, and voilà!</p>
-<p><img src="images/img3.png" /></p>
-<p>If you click into an Issue title, you can see the details of it!</p>
-<p><img src="images/img4.png" /></p>
-<h3>
+
+<p><img src="https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/img1.png" alt="alt text"></p>
+
+<p>Click it, and now you see the Alice panel for your project:</p>
+
+<p><img src="https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/img2.png" alt="alt text"></p>
+
+<p>If you click into an Issue title, you can see the details of it.</p>
+
+<p><img src="https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/img3.png" alt="alt text"></p>
+
+<p><img src="https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/img4.png" alt="alt text"></p>
+
+<p>To have full access to your issues, you need to provide us a personal access token. If you click the "settings" button, you will see this:</p>
+
+<p><img src="https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/img5.png" alt="alt text"></p>
+
+<h2>
+<a name="common-problems" class="anchor" href="#common-problems"><span class="octicon octicon-link"></span></a>Common problems</h2>
+
+<p>If your actual project doesn't have a Github repository in the "origin" remote repository, maybe you will see this:</p>
+
+<p><img src="https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/err0.png" alt="alt text"></p>
+
+<p>This can be solved by calling "origin" the Github remote repository.</p>
+
+<p>If your didn't configure your personal access token, Github provides a 60-request-quota. If Alice do more request than that, probably you will see this message:</p>
+
+<p><img src="https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/err2.png" alt="alt text"></p>
+
+<p>If your access token doesn't have permission to access your private repositories, you will see this message:</p>
+
+<p><img src="https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/err1.png" alt="alt text"></p>
+
+<p>If your project don't use git, you will see this message:</p>
+
+<p><img src="https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/err4.png" alt="alt text"></p>
+
+<h2>
+<a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h2>
+
+<p>Send me an email to pablo.codeiro [at] gmail.com</p>
+
+<p>If you like the application, send me an e-mail, or follow me in twitter! <a href="https://twitter.com/thegreyhat">https://twitter.com/thegreyhat</a></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-52490113-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
