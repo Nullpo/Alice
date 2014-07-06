@@ -14,11 +14,13 @@ define(function (require, exports, module) {
             if(fileError=="NotGithub"){
                 resp += "[origin] is not in Github</h3><p>This project doesn't have in [origin] a github repository. Anyway, you can explore the issues for any other Github Repository</p>";
             } else if(fileError=="NotFound"){
-                resp += "Not a git project</h3><p>Tis project isn't a git project. Anyway, you can explore the issues for any other Github Repository</p>";
-            } if(status == 403){
-                resp += status + "</h3><p>Add a github</p>";
+                resp += "Not a git project</h3><p>This project isn't a git project. Anyway, you can explore the issues for any other Github Repository</p>";
+            } else if(status == 401){
+                resp += status + " - Bad credentials</h3><p>Please, check if the configured Public access token its valid and try again.</p>";
+            } else if(status == 403){
+                resp += status + " - Forbidden</h3><p>Please, check if the configured Public access token its valid and try again.</p>";
             } else if(status == 404) {
-                resp += status + "</h3><p><a href='" + url + "'>Repository</a> not found. Check the repository url and try again</p><p>If its a private repository, please configure your access token and try again.";
+                resp += status + " - Not found</h3><p><a href='" + url + "'>Repository</a> not found. Check the repository url and try again</p><p>If its a private repository, please configure your access token and try again.";
             }
 
             $panelContainer.html("<div class='row'><div class='span11 offset1'>"
