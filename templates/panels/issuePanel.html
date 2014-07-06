@@ -7,10 +7,12 @@
               </a>
               <div class="media-body">
                 {{#body}}
+                    <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
                     <h4 class="media-heading"><a href="{{html_url}}">{{user.login}}</a> created the issue and said:</h4>
                     <p><pre>{{body}}</pre></p>
                 {{/body}}
                 {{^body}}
+                    <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
                     <h4 class="media-heading"><a href="{{html_url}}">{{user.login}}</a> created the issue with no comments.</h4>
                 {{/body}}
               </div>
@@ -23,6 +25,7 @@
             <img class="media-object" style="width:34px" src="{{user.avatar_url}}">
           </a>
           <div class="media-body">
+            <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
             <h4 class="media-heading"><a href="{{user.html_url}}">{{user.login}}</a> says:</h4>
             <p><pre>{{body}}</pre></p>
           </div>
