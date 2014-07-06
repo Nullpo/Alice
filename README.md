@@ -15,7 +15,7 @@ First steps
 
 After installing Alice, you can see the Alice icon in the toolbar on your right:
 
-![alt text](http://nullpo.github.io/Alice/images/img1.png)
+![alt text](https://raw.githubusercontent.com/Nullpo/Alice/master/readme_files/img1.png)
 
 
 Click it, and now you see the Alice panel for your project:
