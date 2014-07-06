@@ -29,8 +29,14 @@ define(function (require, exports, module) {
 
         self.panels = {};
 
+        self.lazyChangeTo = undefined;
+
         self.changeTo = function(panelName,params){
-            if(self._actualPanel.controller.beforeHide()){
+            if(self._actualPanel.view == undefined){
+                console.log("Lazy change panel to: " + panelName);
+                self.lazyChangeTo = { panelName: panelName, params: params };
+            } else if(self._actualPanel.controller.beforeHide()){
+                console.log("Change panel to: " + panelName);
                 self.panels[panelName].show(params);
             }
         }
@@ -54,8 +60,14 @@ define(function (require, exports, module) {
             if(!actualPanel.view){
                 self._firstTimeToggle();
             }
+
             var isVisible = actualPanel.view.togglePanel();
             self._events.onToggle(isVisible);
+
+            if(self.lazyChangeTo){
+                self.changeTo(self.lazyChangeTo.panelName, self.lazyChangeTo.params);
+                self.lazyChangeTo = false;
+            }
         }
 
         self.onToggle = function(f){

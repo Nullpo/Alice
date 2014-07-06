@@ -39,7 +39,7 @@ define(function (require, exports, module) {
         }
 
         self.beforeHide = function(){
-
+            return true;
         }
 
         return self;
