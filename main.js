@@ -11,17 +11,20 @@ define(function (require, exports, module) {
         PreferencesManager  = brackets.getModule("preferences/PreferencesManager");
 
     // Local modules
-    var AliceUtils  = require("src/utils"),
-        i18n = require("src/i18n").i18n,
+    var AliceUtils          = require("src/utils"),
+        i18n                = require("src/i18n").i18n,
         PanelContentManager = require("src/panels/panelContentManager"),
-        InitPanel = require("src/panels/init"),
-        MainRepoPanel = require("src/panels/mainRepo"),
-        NoRepoPanel = require("src/panels/noRepo"),
-        Model = require("src/model"),
-        DetailIssuePanel = require("src/panels/issue"),
-        Toolbar = require("src/toolbar");
+        InitPanel           = require("src/panels/init"),
+        MainRepoPanel       = require("src/panels/mainRepo"),
+        NoRepoPanel         = require("src/panels/noRepo"),
+        LoadingPanel        = require("src/panels/loading"),
+        Model               = require("src/model"),
+        DetailIssuePanel    = require("src/panels/issue"),
+        Toolbar             = require("src/toolbar")
+        ;
 
     ExtensionUtils.loadStyleSheet(module,"main.css");
+    ExtensionUtils.loadStyleSheet(module,"loading.css");
 
     // Load data from PreferencesManager
     // Constants
@@ -57,6 +60,7 @@ define(function (require, exports, module) {
     var mainRepoPanel = MainRepoPanel.create(Model);
     var noRepoPanel = NoRepoPanel.create(Model);
     var detailIssuePanel = DetailIssuePanel.create(Model);
+    var loadingPanel = LoadingPanel.create();
 
     // Creates the PanelContentManager, and binds with the panels created previously
     var contentManager = new PanelContentManager.create({
@@ -68,6 +72,7 @@ define(function (require, exports, module) {
     contentManager.addPanel("mainRepo",mainRepoPanel);
     contentManager.addPanel("noRepo",noRepoPanel);
     contentManager.addPanel("detailIssue",detailIssuePanel);
+    contentManager.addPanel("loading",loadingPanel);
     contentManager.onToggle(function(isVisible){
         if(isVisible){
             self.state = "open";

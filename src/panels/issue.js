@@ -24,11 +24,10 @@ define(function (require, exports, module) {
             var issue = self.model.data.issues.filter(filters.issues.byNumber(number))[0],
                 detailHTML = self.$panelHTML.filter("#bottom-alice-issuedetail-tpl").html();
 
-            $("#title-alice").html("#" + number + " - " + issue.title);
             Mustache.parse(detailHTML);
-            $("#bottom-alice-issues > .alice-bottom-content").html(i18n.LBL_LOADING);
+            self.contentManager.changeTo("loading");
             self.model.issueDetail(number,function(data){
-                var obj = {issue:issue, comments:data};
+                var obj = {issue:issue, comments:data, number: number};
                 $("#bottom-alice-issues > .alice-bottom-content"
                     ).html(Mustache.render(detailHTML,obj));
             });

@@ -23,14 +23,14 @@ define(function (require, exports, module) {
         self.lazyLoadMainRepo = false;
 
         model.onSuccessRequest(function(){
-            $(".alice-background-logo").removeClass("error");
-            $(".alice-background-logo").removeClass("busy");
+            $(".alice-background-logo").removeClass("error")
+                                       .removeClass("busy");
             return true;
         });
 
         model.onStartRequest(function(){
-            $(".alice-background-logo").removeClass("error");
-            $(".alice-background-logo").addClass("busy");
+            $(".alice-background-logo").removeClass("error")
+                                       .addClass("busy");
             return true;
         });
 
@@ -38,9 +38,10 @@ define(function (require, exports, module) {
             var $btnRefresh     = $("#nullpo-alice-btn-refresh"),
                 $close          = $panel.find(".close"),
                 $url            = $("#alice-url"),
-                $settingsButton = $("#nullpo-alice-btn-settings");
+                $settingsButton = $("#nullpo-alice-btn-settings"),
+                $background     = $(".alice-background-logo");
 
-            $(".alice-background-logo").addClass("more-transparent busy");
+            $background.addClass("more-transparent busy");
 
             $settingsButton.click(function(){
                 var modal = $(panelHTML).filter("#alice-settings-dialog-tpl").html(),
@@ -87,7 +88,7 @@ define(function (require, exports, module) {
             // Toolbox - refresh button
             $btnRefresh.click(function(){
                 var $panelContainer = $("#bottom-alice-issues > .alice-bottom-content");
-                $panelContainer.html("Loading ...");
+                self.contentManager.changeTo("loading");
                 self.model.setRepository(
                     {
                         repository: $url.val(),

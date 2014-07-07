@@ -1,18 +1,40 @@
 <script id="bottom-alice-issuedetail-tpl" type="x-tmpl-mustache">
-    <div class="alice-comments">
+    <div class="alice-comments" style="position:relative">
         {{#issue}}
+            <div class="alice subtitle" id="nameForTheIssue">
+                <div class="pull-left">
+                    {{#milestone}}
+                        <span class="label label-info">
+                            {{milestone.title}} ({{milestone.open_issues}})
+                        </span>
+                    {{/milestone}}
+                    {{^milestone}}
+                        <span class="label ">
+                            No milestone
+                        </span>
+                    {{/milestone}}
+                </div>
+                <a href="{{html_url}}"><strong>#{{number}} - {{issue.title}}</strong></a>
+                <div class="pull-right">
+                {{#labels}}
+                        <span class="label" style="background-color:#{{color}};color:yellow">
+                            {{name}}
+                        </span>
+                {{/labels}}
+                </div>
+            </div>
+
             <div class="media">
               <a class="pull-left" href="#">
                 <img class="media-object" style="width:34px" src="{{user.avatar_url}}">
               </a>
               <div class="media-body">
+                <span class="pull-right" style="font-weight: lighter;margin-right:10px">{{created_at}}</span>
                 {{#body}}
-                    <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
                     <h4 class="media-heading"><a href="{{html_url}}">{{user.login}}</a> created the issue and said:</h4>
                     <p><pre>{{body}}</pre></p>
                 {{/body}}
                 {{^body}}
-                    <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
                     <h4 class="media-heading"><a href="{{html_url}}">{{user.login}}</a> created the issue with no comments.</h4>
                 {{/body}}
               </div>
@@ -20,16 +42,16 @@
         {{/issue}}
 
         {{#comments}}
-        <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" style="width:34px" src="{{user.avatar_url}}">
-          </a>
-          <div class="media-body">
-            <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
-            <h4 class="media-heading"><a href="{{user.html_url}}">{{user.login}}</a> says:</h4>
-            <p><pre>{{body}}</pre></p>
-          </div>
-        </div>
+            <div class="media">
+              <a class="pull-left" href="#">
+                <img class="media-object" style="width:34px" src="{{user.avatar_url}}">
+              </a>
+              <div class="media-body">
+                <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
+                <h4 class="media-heading"><a href="{{html_url}}">{{user.login}}</a> says:</h4>
+                <p><pre>{{body}}</pre></p>
+              </div>
+            </div>
         {{/comments}}
     </div>
 </script>
