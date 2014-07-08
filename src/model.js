@@ -62,14 +62,15 @@ define(function (require, exports, module) {
     self._getProjectRepositoryFromFile = function(callback) {
         return function(){
             var path = self.projectManager.getProjectRoot().fullPath + ".git/config"
-            //[remote "origin"]
+            //TODO: Use regular expressions instead strUrl & strUrl2
             var f = self.fileSystem.getFileForPath(path);
             self.fileUtils.readAsText(f).done(function(data,warehaus){
-                var strRemote = '[remote "origin"]';
-                var strUrl = "url = git@github.com:"
-                var lines = data.split("\n");
-                var itsInOrigins = false;
-                var repo = undefined;
+                var strRemote       = '[remote "origin"]',
+                    strUrl          = "url = git@github.com:",
+                    strUrl2         = "url = https://github.com/",
+                    lines           = data.split("\n"),
+                    itsInOrigins    = false,
+                    repo            = undefined;
                 lines.every(function(obj){
                     if(!itsInOrigins){
                         if(obj.indexOf(strRemote) != -1){
@@ -77,6 +78,9 @@ define(function (require, exports, module) {
                         }
                     } else if(obj.indexOf(strUrl) != -1){
                         repo = obj.substring(obj.indexOf(strUrl) + strUrl.length, obj.length -4);
+                        return false;
+                    } else if(obj.indexOf(strUrl2) != -1) {
+                        repo = obj.substring(obj.indexOf(strUrl2) + strUrl2.length, obj.length -4);
                         return false;
                     }
                     return true;
