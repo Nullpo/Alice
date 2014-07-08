@@ -79,11 +79,9 @@ define(function (require, exports, module) {
             if(!$buttonsGroup)
                 return;
 
-            //$("#title-alice").html(i18n.LBL_LOADING);
             $(".alice-control-group-repo-url").removeClass("success")
             $(".alice-control-group-repo-url").addClass("success")
             $(".alice-control-group-repo-url input").removeAttr("disabled")
-            //$("#bottom-alice-issues > .alice-bottom-content").html(i18n.LBL_LOADING);
 
             $buttonsGroup.addClass("btn");
             $buttonsGroup.removeClass("btn-warning btn-primary");

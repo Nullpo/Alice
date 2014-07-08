@@ -25,7 +25,6 @@ define(function (require, exports, module) {
                 detailHTML = self.$panelHTML.filter("#bottom-alice-issuedetail-tpl").html();
 
             Mustache.parse(detailHTML);
-            self.contentManager.changeTo("loading");
             self.model.issueDetail(number,function(data){
                 var obj = {issue:issue, comments:data, number: number};
                 $("#bottom-alice-issues > .alice-bottom-content"

@@ -88,7 +88,6 @@ define(function (require, exports, module) {
             // Toolbox - refresh button
             $btnRefresh.click(function(){
                 var $panelContainer = $("#bottom-alice-issues > .alice-bottom-content");
-                self.contentManager.changeTo("loading");
                 self.model.setRepository(
                     {
                         repository: $url.val(),

@@ -88,6 +88,7 @@ define(function (require, exports, module) {
     // Model events.
     Model.onStartRequest(function(){
         self.isBusy = true;
+        contentManager.changeTo("loading");
         self.icon.changeState("busy");
         $(".alice-background-logo").removeClass("error");
         $(".alice-background-logo").addClass("more-transparent busy");
