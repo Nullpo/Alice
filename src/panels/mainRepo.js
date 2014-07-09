@@ -26,19 +26,16 @@ define(function (require, exports, module) {
 
         self._filter = function(button,title,state){
             return function(){
-                var issuesToShow = self.model.data.issues.filter(state),
-                    $panelContainer = $("#bottom-alice-issues > .alice-bottom-content");
+                var issuesToShow    = self.model.data.issues.filter(state),
+                    $panelContainer = $("#bottom-alice-issues > .alice-bottom-content"),
+                    objToRender     = {issues: issuesToShow, title:title};
 
                 Mustache.parse(self.panelTpl);
-                $panelContainer.html(Mustache.render(self.panelTpl, {issues: issuesToShow}));
+                $panelContainer.html(Mustache.render(self.panelTpl, objToRender));
 
                 var $selectedButton     = $("#"+button),
-                    $title              = $("#title-alice"),
                     $buttonsGroup       = $("#alice-select-issuetype button"),
                     $getDetails         = $(".alice-get-details");
-
-
-                $title.html(title);
 
                 $buttonsGroup.removeAttr('disabled');
                 $buttonsGroup.addClass("btn");
