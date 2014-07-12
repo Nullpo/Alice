@@ -84,7 +84,7 @@ define(function (require, exports, module) {
             $buttonsGroup.removeClass("btn-warning btn-primary");
 
             $("#nullpo-alice-btn-refresh").removeAttr("disabled");
-            $("#alice-url").val(self.model.getRawUrl());
+            $("#alice-url").val(self.model.data.repository);
             $(".alice-background-logo").removeClass("busy");
         }
 

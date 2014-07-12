@@ -3,6 +3,16 @@
 
 define(function (require, exports, module) {
 
+    exports.colors = {
+        isTooLightYIQ : function(hexcolor){
+          var r = parseInt(hexcolor.substr(0,2),16);
+          var g = parseInt(hexcolor.substr(2,2),16);
+          var b = parseInt(hexcolor.substr(4,2),16);
+          var yiq = ((r*299)+(g*587)+(b*114))/1000;
+          return yiq >= 128;
+        }
+    }
+
     exports.filters = {
         operators : {
             UNION : function(filter1,filter2){
@@ -19,14 +29,14 @@ define(function (require, exports, module) {
                 });
             },
             opened : function(elem){
-                return elem.closed_at == null;
+                return elem.state == "opened";
             },
             closed : function(elem){
-                return elem.closed_at != null;
+                return elem.state == "closed";
             },
-            byNumber: function(number){
+            byApiId: function(number){
                 return function(elem){
-                    return elem.number == number;
+                    return elem.apiId == number;
                 }
             }
         }

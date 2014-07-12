@@ -21,7 +21,7 @@ define(function (require, exports, module) {
         self.model = model;
 
         self._showDetail = function(title,number){
-            var issue = self.model.data.issues.filter(filters.issues.byNumber(number))[0],
+            var issue = self.model.data.issues.filter(filters.issues.byApiId(number))[0],
                 detailHTML = self.$panelHTML.filter("#bottom-alice-issuedetail-tpl").html();
 
             Mustache.parse(detailHTML);

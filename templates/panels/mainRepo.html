@@ -9,7 +9,7 @@
                 <th style="text-align:center">Creator</th>
                 <th style="text-align:center">Asignee</th>
                 <th>Issue</th>
-                <th>Status</th>
+                <th>State</th>
                 <th>Labels</th>
                 <th>Milestone</th>
             </tr>
@@ -18,31 +18,34 @@
             {{#issues}}
             <tr>
                 <td style="width:20px;text-align:right">
-                    <a href="{{html_url}}">#{{number}}</a>
+                    <a href="{{htmlUrl}}">#{{number}}</a>
                 </td>
                 <td style="width:30px">
-                    <a href="{{user.html_url}}">
-                        <img src="{{user.avatar_url}}" style="width:24px"
-                            class="alice-tooltip" title="{{user.login}}"/>
+                    <a href="{{creator.htmlUrl}}">
+                        <img src="{{creator.avatarUrl}}" style="width:24px"
+                            class="alice-tooltip" title="{{creator.title}}"/>
                     </a>
                 </td>
                 <td style="width:30px">
-                    <a href="{{assignee.html_url}}">
-                        <img src="{{assignee.avatar_url}}" style="width:24px"
-                            class="alice-tooltip" title="{{assignee.login}}"/>
+                    <a href="{{assignee.htmlUrl}}">
+                        <img src="{{assignee.avatarUrl}}" style="width:24px"
+                            class="alice-tooltip" title="{{assignee.title}}"/>
                     </a>
                 </td>
-                <td><a href="#" class="alice-get-details" data-number="{{number}}">{{title}}</a></td>
+                <td><a href="#" class="alice-get-details" data-number="{{apiId}}">{{title}}</a></td>
                 <td><a href="#">{{state}}</a></td>
                 <td>
                     {{#labels}}
-                        <span class="label" style="background-color:#{{color}};color:yellow">{{name}}</span>
+                        <span class="label" style="background-color:{{background}};color:{{color}}">{{name}}</span>
                     {{/labels}}
                 </td>
                 <td>
                     {{#milestone}}
-                        <span class="label label-info">
-                            {{milestone.title}} ({{milestone.open_issues}})
+                        <span class="label label-info" style="color:white">
+                            {{milestone.title}}
+                            {{#milestone.openIssues}}
+                                ({{milestone.openIssues}})
+                            {{/milestone.openIssues}}
                         </span>
                     {{/milestone}}
 

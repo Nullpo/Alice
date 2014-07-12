@@ -1,11 +1,12 @@
 define(function (require, exports, module) {
-     var Dialogs     = brackets.getModule("widgets/Dialogs"),
-         PanelView   = require("src/panelView"),
-         i18n        = require("src/i18n").i18n,
-         filters     = require("src/utils").filters,
-         preferences = require("src/preferences"),
-         panelHTML   = require("text!templates/panels/init.html"),
-         $panelHTML  = $(panelHTML);
+     var Dialogs            = brackets.getModule("widgets/Dialogs"),
+         PanelView          = require("src/panelView"),
+         DialogRepository   = require("src/modals/repositories"),
+         i18n               = require("src/i18n").i18n,
+         filters            = require("src/utils").filters,
+         preferences        = require("src/preferences"),
+         panelHTML          = require("text!templates/panels/init.html"),
+         $panelHTML         = $(panelHTML);
 
     var panelButtons = {
         BTN_SHOW_BUGS   : "nullpo-alice-btn-bugs",
@@ -39,7 +40,8 @@ define(function (require, exports, module) {
                 $close          = $panel.find(".close"),
                 $url            = $("#alice-url"),
                 $settingsButton = $("#nullpo-alice-btn-settings"),
-                $background     = $(".alice-background-logo");
+                $background     = $(".alice-background-logo"),
+                $select         = $("#alice-select-repo");
 
             $background.addClass("more-transparent busy");
 
@@ -88,13 +90,12 @@ define(function (require, exports, module) {
             // Toolbox - refresh button
             $btnRefresh.click(function(){
                 var $panelContainer = $("#bottom-alice-issues > .alice-bottom-content");
-                self.model.setRepository(
-                    {
-                        repository: $url.val(),
-                        done: self.repositoryChanged,
-                        fail: self.repositoryNotFound,
-                    }
-                );
+                self.model.update().done(function(){
+                    self.contentManager.changeTo("mainRepo")
+                }).fail(function(){
+                    // FIXME: This
+                    self.contentManager.changeTo("noRepo",[])
+                });
             });
 
             $url.val(model.rawUrl);
@@ -104,6 +105,12 @@ define(function (require, exports, module) {
                 if (e.keyCode == 13) {
                     $btnRefresh.click();
                 }
+            });
+
+
+            model.data.repositories.forEach(function(repo){
+                    $select.html($select.html() +
+                                 "<option value="+repo.data.url+">" + repo.type + " - " + repo.data.url + "</option>");
             });
 
             if(self.lazyLoadMainRepo){
@@ -125,47 +132,57 @@ define(function (require, exports, module) {
             }
         }
 
-        self.repositoryChanged = function(data){
-            console.log("Repository changed! Recieved data:");
-            console.log(data);
-            self.contentManager.changeTo("mainRepo");
-        };
+        self.repositoryChanged = function(url){
+            console.log("Repository changed! New url" + url);
+            console.log("Loading issues");
+            var promise = self.model.update();
 
-        self.repositoryNotFound = function(url, status,fileError){
-            console.log("Repository not found! url: " + url + " status:" + status );
-
-            self.contentManager.changeTo("noRepo",{
-                url     : url,
-                status  : status,
-                fileError   : fileError
+            promise.done(function(data){
+                console.log("New repository data: ");
+                console.log(data);
+                self.contentManager.changeTo("mainRepo");
+            });
+            promise.fail(function(jqHxr){
+                console.log("Failed to fetch issues from repository: " + jqHxr);
+                self.contentManager.changeTo("noRepo",{
+                    url     : url,
+                    status  : jqHxr.status,
+                    fileError   : "PROBLEM?"
+                });
             });
         };
 
-        //TODO: When the preferences are loaded, check it out the Github repository
-        //For now: check if its a github repository
+        self.refreshProject = function(repositories,status,fileError){
+            console.log("New project recieved! ");
+            console.log(repositories);
 
-        model.onRefreshProject(function(newUrl,status,fileError){
-            console.log("New project recieved! " + newUrl);
-            model.data.accessToken = preferences.get("githubAccessToken");
+            var validRepos = repositories.filter(function(elem){
+                return elem.error == null;
+            });
 
-            if(model.data.accessToken){
-                console.log("Access token: " + model.data.accessToken);
-            } else {
-                console.log("This user doesn't have any access token");
-            }
-
-            if(!newUrl){
-                self.repositoryNotFound(newUrl,status,fileError);
-            } else {
-                model.setRepository(
+            if(validRepos.length == 1){
+                var wasSetted = model.setRepository(
                     {
-                        repository: newUrl,
-                        done: self.repositoryChanged,
-                        fail: self.repositoryNotFound,
+                        type        : validRepos[0].type,
+                        repository  : validRepos[0].data.url,
+                        handler     : validRepos[0].handler
                     }
                 );
+                if(wasSetted){
+                    self.repositoryChanged(validRepos[0].data.url);
+                } else {
+                    self.repositoryNotValid(validRepos[0].data.url);
+                }
+            } else {
+                DialogRepository.show(validRepos);
             }
-        });
+        };
+
+        self.failedRefreshProject = function(errors){
+            self.contentManager.changeTo("noRepo",errors);
+        }
+
+        model.onRefreshProject(self.refreshProject,self.failedRefreshProject);
 
 
         return self;

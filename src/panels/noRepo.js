@@ -4,27 +4,26 @@ define(function (require, exports, module) {
         var self = this;
         self.contentManager = undefined;
         self.model = model;
-        self.show = function(props){
+        self.show = function(repos){
             var $panelContainer = $("#bottom-alice-issues > .alice-bottom-content"),
-                status          = props.status,
-                url             = props.url,
-                fileError       = props.fileError;
-
-            var resp = "<h3> Error: ";
-             //+ status + "</h3>"
-            if(fileError=="NotGithub"){
-                resp += "[origin] is not in Github</h3><p>This project doesn't have in [origin] a github repository. Anyway, you can explore the issues for any other Github Repository</p>";
-            } else if(fileError=="NotFound"){
-                resp += "Not a git project</h3><p>This project isn't a git project. Anyway, you can explore the issues for any other Github Repository</p>";
-            } else if(status == 401){
-                resp += status + " - Bad credentials</h3><p>Please, check if the configured Public access token its valid and try again.</p>";
-            } else if(status == 403){
-                resp += status + " - Forbidden</h3><p>Please, check if the configured Public access token its valid and try again.</p>";
-            } else if(status == 404) {
-                resp += status + " - Not found</h3><p><a href='" + url + "'>Repository</a> not found. Check the repository url and try again</p><p>If its a private repository, please configure your access token and try again.";
-            } else if(status == 410) {
-                resp += status + " - Gone</h3><p>Probably the configured <a href='" + model.rawUrl + "'>repository</a> don't have the Issues feature configured in Github. Please, <a href='" + model.rawUrl + "/settings'>configure it</a> and try again."
-            }
+                resp            = "";
+            repos.forEach(function(elem){
+                resp += "<h3> Error: ";
+                 //+ status + "</h3>"
+                if(elem.error=="NotGithub"){
+                    resp += "[origin] is not in Github</h3><p>This project doesn't have in [origin] a github repository. Anyway, you can explore the issues for any other Github Repository</p>";
+                } else if(elem.error=="NotFound"){
+                    resp += "Not a git project</h3><p>This project isn't a git project. Anyway, you can explore the issues for any other Github Repository</p>";
+                } else if(elem.error == 401){
+                    resp += status + " - Bad credentials</h3><p>Please, check if the configured Public access token its valid and try again.</p>";
+                } else if(elem.error == 403){
+                    resp += "403 - Forbidden</h3><p>Please, check if the configured Public access token its valid and try again.</p>";
+                } else if(elem.error == 404) {
+                    resp += "404 - Not found</h3><p><a href='" + elem.url + "'>Repository</a> not found. Check the repository url and try again</p><p>If its a private repository, please configure your access token and try again.";
+                } else if(elem.error == 410) {
+                    resp += "410 - Gone</h3><p>Probably the configured <a href='" + elem.url + "'>repository</a> don't have the Issues feature configured in Github. Please, <a href='" + elem.url + "/settings'>configure it</a> and try again."
+                }
+            });
 
             $panelContainer.html("<div class='row'><div class='span11 offset1'>"
                                  + resp + "</div></div>");
