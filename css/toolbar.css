@@ -1,0 +1,43 @@
+.alice-icon{
+    background-image: url( '../images/logo.svg');
+}
+
+.alice-toolbar-open {
+     background-position: 0 -24px;
+}
+
+.alice-toolbar-loading {
+    background-position: 0 -48px;
+    -webkit-animation-name: alice-toolbar-rotate-icon;
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 1.0s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+.alice-toolbar-error {
+    background-position: 0 -72px;
+}
+
+/** Animations **/
+
+@-webkit-keyframes alice-toolbar-rotate-icon {
+    0% {
+     -webkit-transform: rotate(-10deg);
+    }
+    10% {
+       -webkit-transform: rotate(10deg);
+    }
+    20% {
+       -webkit-transform: rotate(-10deg);
+    }
+    30% {
+        -webkit-transform: rotate(10deg);
+    }
+    40% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+    }
+}
