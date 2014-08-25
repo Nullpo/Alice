@@ -149,7 +149,7 @@ define(function (require, exports) {
             });
     };
 
-    exports.name                        = "Github";
+    exports.name                        = "Bitbucket";
     exports.getIssues                   = self.getIssues;
     exports.issueDetail                 = self.issueDetail;
 });
