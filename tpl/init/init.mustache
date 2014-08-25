@@ -1,0 +1,54 @@
+<div id="alice-panel-error">
+    <div class="row">
+        <div class="span11 offset1">
+            <h4><strong>
+                You have multiple issue trackers in this project. Please, select one and continue.
+            </strong></h4>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        {{#issueTrackers}}
+            <div class="span3 offset1">
+                <div class="media">
+                    <span class="pull-left">
+                        <button
+                                data-it="{{name}}"
+                                class="alice-credentials btn btn-mini btn-block
+                                       {{#location}}
+                                            {{#credential}}
+                                                alice-btn-success
+                                            {{/credential}}
+                                            {{^credential}}
+                                                alice-btn-error
+                                            {{/credential}}
+                                       {{/location}}
+                                       {{^location}}
+                                                alice-btn-error
+                                       {{/location}}"
+                            type="button">Credentials</button>
+                        <img class="media-object" src="{{image}}" style="width:64px;border:1px solid #CCF">
+                        <button class="alice btn btn-mini btn-block selectedIT alice-btn-success"
+                            data-it="{{name}}"
+                            type="button">Select</button>
+                    </span>
+
+                    <div class="media-body">
+                        <span class="pull-right text-info" >
+                            <small>{{protocol}}</small>
+                        </span>
+                        <h4 class="media-heading">[{{name}}]</h4>
+                        <p><strong>Server: </strong>{{domain}}<br />
+                            <strong>Context:</strong>
+                             <a href="{{domain}}/{{context}}"
+                               style="width: 50px;white-space: nowrap;overflow: hidden;
+                                      text-overflow: ellipsis;"
+                               title="{{domain}}/{{context}}">{{context}}</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {{/issueTrackers}}
+    </div>
+
+</div>

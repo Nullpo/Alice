@@ -1,0 +1,12 @@
+{
+    name: "nullpo.alice-tracker",
+    title: "Alice issue tracker (github/gitlab/bitbucket)",
+    description: "See from Brackets all your Github, Gitlab cloud and Bitbucket issues with Alice issue tracker.",
+    homepage: "https://github.com/Nullpo/Alice",
+    version: "0.1.0",
+    author: "Pablo codeiro <cutrix2k@gmail.com>",
+    license: "GPL v3",
+    engines: {
+    brackets: ">=0.42.0"
+    }
+}

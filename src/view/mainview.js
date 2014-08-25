@@ -1,12 +1,13 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global define, $, brackets */
+/*global define, $ */
 
-define(function (require, exports, module) {
+define(function (require, exports) {
     "use strict";
     var title       = "Alice issue tracker";
     var id          = "alice-toolbar-element";
+    var Panel       = require("src/view/alicePanel");
     var global      = this;
-
+    global.Tube        = require("src/tube").instance;
 
     var ToolbarElement = function () {
         var self = this;
@@ -22,19 +23,19 @@ define(function (require, exports, module) {
                 .addClass(self.classes.base);
         self.$toolbar = $("#main-toolbar .buttons");
 
-        this.shakeIt = function () {
+        self.shakeIt = function () {
             self.$icon.removeClass();
             self.$icon.addClass(self.classes.base + " " + self.classes.shakeIt);
         };
-        this.error = function () {
+        self.error = function () {
             self.$icon.removeClass();
             self.$icon.addClass(self.classes.base + " " + self.classes.error);
         };
-        this.active = function () {
+        self.active = function () {
             self.$icon.removeClass();
             self.$icon.addClass(self.classes.base + " " + self.classes.active);
         };
-        this.inactive = function () {
+        self.inactive = function () {
             self.$icon.removeClass();
             self.$icon.addClass(self.classes.base);
         };
@@ -45,28 +46,38 @@ define(function (require, exports, module) {
             self.$icon.on(evt,f);
         };
 
-        self.borrame = [
-            "shakeIt",
-            "error",
-            "active",
-            "inactive"
-        ];
-        self.actual = 0;
+        this.on("click",function(){
+           global.Tube.drop("clickOnToolbar");
+        });
 
-        this.on("click", function(){
-            self[self.borrame[self.actual]]();
-            self.actual += 1;
-            if(self.actual == 4){
-                self.actual = 0;
+        self.isPanelOpen = false;
+
+
+        global.Tube.on("error", function() {
+            self.error();
+        });
+        global.Tube.on("openPanel", function() {
+            self.isPanelOpen = true;
+            self.active();
+        });
+        global.Tube.on("closePanel", function() {
+            self.isPanelOpen = false;
+            self.inactive();
+        });
+        global.Tube.on("busy", function() {
+            self.shakeIt();
+        });
+        global.Tube.on("notbusy", function() {
+            if(self.isPanelOpen){
+                self.active();
+            } else {
+                self.inactive();
             }
         });
     };
 
     exports.init = function () {
         global.activeToolbar = new ToolbarElement();
-    };
-
-    exports.getToolbar = function () {
-        return global.activeToolbar;
+        Panel.init();
     };
 });
