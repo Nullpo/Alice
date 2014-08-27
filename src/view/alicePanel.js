@@ -26,7 +26,7 @@ define(function (require, exports) {
             if(value){
                 clazz.Tube.drop("openPanel");
             } else {
-                clazz.Tube.drop("closePanel");
+                clazz.Tube.drop("closePanel", {from:"togglePanel"});
             }
 
             if(self.first){
@@ -56,6 +56,7 @@ define(function (require, exports) {
             } else {
                 self.panel.hide();
             }
+
             return self._realVisibility;
         };
 
@@ -78,7 +79,9 @@ define(function (require, exports) {
 
     exports.init = function() {
         var pnl = new PanelView();
-
+        exports.instance = pnl;
         return pnl;
     };
+
+
 });

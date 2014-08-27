@@ -1,6 +1,7 @@
 error
 openPanel
 closePanel
+changePanel
 busy
 notbusy
 

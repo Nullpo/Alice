@@ -114,6 +114,9 @@ define(function (require, exports) {
         }
     ];
 
+    exports.addComment = function(){
+    }
+
     exports.call = function(locationName){
         this.config(locationName);
     };

@@ -3,11 +3,12 @@
 
 define(function (require, exports) {
     "use strict";
-    var Async = brackets.getModule("utils/Async");
+    var Async           = brackets.getModule("utils/Async");
     var self = this;
 
 
     self.preferences = undefined;
+    self.projectManager = ProjectManager;
 
     self.initView = function () {
         var deferred = $.Deferred(),
@@ -41,15 +42,6 @@ define(function (require, exports) {
         return deferred;
     };
 
-    self.viewEvents = function () {
-        var deferred = $.Deferred();
-        console.debug("****** View events ******");
-        console.debug(self.model.data.lastIssueList);
-        console.debug("*************************");
-        deferred.resolve();
-        return deferred;
-    };
-
     self.debugAsync = function(text) {
         return function() {
             var deferred = $.Deferred();
@@ -61,12 +53,12 @@ define(function (require, exports) {
 
     self.init = function () {
         self.initView();
-        self.loadPreferences();
 
         var jobs = [
-            self.fillModel,
-            self.viewEvents,
+            self.loadPreferences,
+            self.fillModel
         ];
+
         return Async.chain(jobs);
     };
 

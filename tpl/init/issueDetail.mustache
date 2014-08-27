@@ -1,56 +1,66 @@
-    <div class="alice-comments span12">
-        {{#issue}}
-            <div class="alice subtitle" id="nameForTheIssue">
-                <div class="pull-left">
-                    {{#milestone}}
-                        <span class="label label-info">
-                            {{milestone.title}} ({{milestone.open_issues}})
-                        </span>
-                    {{/milestone}}
-                    {{^milestone}}
-                        <span class="label ">
-                            No milestone
-                        </span>
-                    {{/milestone}}
-                </div>
-                <a href="{{html_url}}"><strong>#{{number}} - {{issue.title}}</strong></a>
-                <div class="pull-right">
-                {{#labels}}
-                        <span class="label" style="background-color:#{{color}};color:yellow">
-                            {{{name}}}
-                        </span>
-                {{/labels}}
-                </div>
-            </div>
-
-            <div class="media">
-              <a class="pull-left" href="#">
-                <img class="media-object" style="width:34px" src="{{creator.avatarUrl}}">
-              </a>
-              <div class="media-body">
-                <span class="pull-right" style="font-weight: lighter;margin-right:10px">{{created_at}}</span>
-                {{#parsedBody}}
-                    <h4 class="media-heading"><a href="{{creator.htmlUrl}}">{{creator.title}}</a> created the issue and said:</h4>
-                    <div>{{{parsedBody}}}</div>
-                {{/parsedBody}}
-                {{^body}}
-                    <h4 class="media-heading"><a href="{{creator.htmlUrl}}">{{creator.title}}</a> created the issue with no comments.</h4>
-                {{/body}}
-              </div>
-            </div>
-        {{/issue}}
-        <hr />
-        {{#comments}}
-            <div class="media">
-              <a class="pull-left" href="{{creator.htmlUrl}}">
-                <img class="media-object" style="width:34px" src="{{creator.avatarUrl}}">
-              </a>
-              <div class="media-body">
-                <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
-                <h4 class="media-heading"><a href="{{html_url}}">{{creator.title}}</a> says:</h4>
-                {{{parsedBody}}}
-              </div>
-            </div>
-            <hr />
-        {{/comments}}
+<div class="alice-comments span12">
+    {{#issue}}
+    <div class="alice subtitle" id="nameForTheIssue">
+        <div class="pull-left">
+            {{#milestone}}
+            <span class="label label-info">
+                        {{milestone.title}} ({{milestone.open_issues}})
+                    </span>
+            {{/milestone}} {{^milestone}}
+            <span class="label ">
+                        No milestone
+                    </span>
+            {{/milestone}}
+        </div>
+        <a href="{{html_url}}"><strong>#{{number}} - {{issue.title}}</strong></a>
+        <div class="pull-right">
+            {{#labels}}
+            <span class="label" style="background-color:#{{color}};color:yellow">
+                        {{{name}}}
+                    </span>
+            {{/labels}}
+        </div>
     </div>
+
+    <div class="media">
+        <a class="pull-left" href="#">
+            <img class="media-object" style="width:34px" src="{{creator.avatarUrl}}">
+        </a>
+        <div class="media-body">
+            <span class="pull-right" style="font-weight: lighter;margin-right:10px">{{created_at}}</span>
+            {{#parsedBody}}
+            <h4 class="media-heading"><a href="{{creator.htmlUrl}}">{{creator.title}}</a> created the issue and said:</h4>
+            <div>{{{parsedBody}}}</div>
+            {{/parsedBody}}
+            {{^body}}
+                <h4 class="media-heading"><a href="{{creator.htmlUrl}}">{{creator.title}}</a>
+                 created the issue with no comments.</h4>
+            {{/body}}
+        </div>
+    </div>
+    {{/issue}}
+    <hr />
+    {{#comments}}
+    <div class="media">
+        <a class="pull-left" href="{{creator.htmlUrl}}">
+            <img class="media-object" style="width:34px" src="{{creator.avatarUrl}}">
+        </a>
+        <div class="media-body">
+            <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
+            <h4 class="media-heading"><a href="{{html_url}}">{{creator.title}}</a> says:</h4>
+            {{{parsedBody}}}
+        </div>
+    </div>
+    <hr />
+    {{/comments}}
+</div>
+<div class="alice-comments span12">
+    <div class="row">
+       <div class="span11">
+           <textarea id="miTextArea" style="width:100%"></textarea>
+       </div>
+       <div class="span1">
+           <button class="btn-success" style="padding-left:5px">Add new comment</button>
+       </div>
+    </div>
+</div>

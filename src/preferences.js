@@ -8,6 +8,10 @@ define( function( require, exports ) {
 
     var Preferences = function(){
         var self = this;
+        self.reload = function(){
+            self.init();
+        };
+
         self.init = function(){
             self.prefs = PreferencesManager.getExtensionPrefs( 'nullpo.alice-issuetracker' );
 
@@ -37,9 +41,12 @@ define( function( require, exports ) {
                     fixed       : true
                 }
             ];
+            try {
+                self.prefs.definePreference('servers', 'object', defaultServers);
+            } catch (ex){
+                console.debug(ex);
+            }
 
-            self.prefs.definePreference('servers', 'object', defaultServers);
-            //self.prefs.set('locations',defaultLocations);
             self.prefs.save();
             var issueTrackers = self.prefs.get("issueTrackers",
                                                PreferencesManager.CURRENT_PROJECT);
