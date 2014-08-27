@@ -1,5 +1,15 @@
 <div class="btn-group alice-right-icons">
-
+   {{#transformers}}
+        <button class="btn" id="nullpo-alice-btn-transformer-{{id}}">
+            {{#image}}
+                <img src="{{image}}" style="width:14px" />
+            {{/image}}
+            {{#icon}}
+                <i class="octicon {{icon}}" style="color:{{color}}"></i>
+            {{/icon}}
+        </button>
+    {{/transformers}}
+    &nbsp;
     <button class="btn" id="nullpo-alice-btn-bugs">
         <i class="octicon octicon-bug"></i>
     </button>

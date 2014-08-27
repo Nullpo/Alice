@@ -24,13 +24,20 @@ define(function (require, exports) {
                 var data = {
                     issues: Model.data.lastIssueList
                 };
+                var toolbarData = {
+                    transformers : Model.getTransformers()
+                };
 
                 if(filterData.data && filterData.data.filter){
                     data.issues = data.issues.filter(filterData.data.filter);
                 }
 
+                if(filterData.transform){
+                    data.issues = filterData.transform(data.issues);
+                }
+
                 return {
-                    toolbar: Mustache.render(_toolbar),
+                    toolbar: Mustache.render(_toolbar,toolbarData),
                     content: Mustache.render(_html,data)
                 };
             },
@@ -40,8 +47,31 @@ define(function (require, exports) {
                 } else {
                     $("#nullpo-alice-btn-all").attr("class","btn-primary");
                 }
+
+                if(filterData.transformId){
+                    $("#nullpo-alice-btn-transformer-" + filterData.transformId)
+                        .attr("class","btn-primary");
+                }
+
             },
-            events: function() {
+            events: function(bla,$toolbar,$content,filterData) {
+                var Model = require("src/model/model").instance;
+                var transformers = Model.getTransformers();
+
+                if(transformers){
+                    transformers.forEach(function(elem){
+                        $("#nullpo-alice-btn-transformer-" + elem.id).click(function(){
+                            if($(this).attr("class").indexOf("btn-primary") == -1){
+                                filterData.transform = elem.transform;
+                                filterData.transformId = elem.id;
+                            }
+                            Tube.drop("changePanel",filterData);
+                        });
+                    });
+                }
+
+
+
                 _panelButtons.forEach(function(elem){
                     $("#"+elem.id).click(function(){
                         Tube.drop("changePanel",{

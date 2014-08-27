@@ -1,9 +1,7 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global define, Mustache, brackets, $*/
+/*global define, Mustache, $*/
 
 define(function (require, exports) {
-    //var Utils = require("src/view/aliceUtils");
-    var Dialogs   = brackets.getModule("widgets/Dialogs");
     var Tube      = require("src/tube").instance;
     var panel = (function(){
         var _html               = require("text!tpl/init/init.mustache"),
@@ -32,7 +30,7 @@ define(function (require, exports) {
                             break;
                     }
 
-                    elem.location = Preferences.getLocationByIT(elem);
+                    elem.server = Preferences.getServerByIT(elem);
                     return elem;
                 });
                 return {

@@ -1,8 +1,8 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $ */
-define(function (require, exports, module) {
-
-    var self            = this;
+define(function (require, exports) {
+    var AliceUtils = require("src/view/aliceUtils");
+    var self       = this;
 
     self._normalizeLabel = function(labelName) {
         var labelColors = {};
@@ -16,7 +16,7 @@ define(function (require, exports, module) {
 
         return {
             name:labelName,
-            color: "white",
+            color: AliceUtils.colors.isTooLightYIQ(myColor)?"#333":"white",
             background : myColor
         };
     };

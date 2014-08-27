@@ -40,6 +40,16 @@ define(function (require, exports) {
             return clazz.genericIT[issueTracker.protocol].configurator;
         };
 
+        this.getTransformers = function(protocol) {
+            if(!protocol){
+                protocol = this.data.selectedIssueTracker.protocol;
+            }
+
+            return this.getConfigurator(protocol).transformers;
+        };
+
+
+
         this.data = {
             selectedIssueTracker : null,
             lastIssueList : [],
@@ -63,13 +73,15 @@ define(function (require, exports) {
 
             var protocol = this.data.selectedIssueTracker.protocol,
                 it       = this.data.selectedIssueTracker,
-                location = Preferences.instance().getLocationByIT(it);
+                server = Preferences.instance().getServerByIT(it);
 
-            return clazz.genericIT[protocol].connector.getIssues(it, location).done(function(resp){
+            return clazz.genericIT[protocol].connector.getIssues(it, server).done(function(resp){
                 clazz.Tube.drop("notbusy");
                 self.data.lastIssueList = resp;
-            }).fail(function(){
-                clazz.Tube.drop("error");
+            }).fail(function(data){
+                clazz.Tube.drop("error",{
+                    data: data
+                });
             });
         };
 
@@ -92,10 +104,10 @@ define(function (require, exports) {
         this.issueDetail = function(number){
             var protocol = this.data.selectedIssueTracker.protocol,
                 it       = this.data.selectedIssueTracker,
-                location = Preferences.instance().getLocationByIT(it),
+                server = Preferences.instance().getServerByIT(it),
                 deferred = $.Deferred();
 
-            clazz.genericIT[protocol].connector.issueDetail(it, location,number).done(function(resp){
+            clazz.genericIT[protocol].connector.issueDetail(it, server,number).done(function(resp){
                 clazz.Tube.drop("notbusy");
                 var theIssue = null;
                 for(var i = 0; i < self.data.lastIssueList.length;i++){
@@ -108,7 +120,9 @@ define(function (require, exports) {
                     comments: resp
                 });
             }).fail(function(data){
-                clazz.Tube.drop("error");
+                clazz.Tube.drop("error",{
+                    data: data
+                });
                 deferred.reject(data);
             });
             return deferred;

@@ -55,23 +55,23 @@ define( function( require, exports ) {
             self.prefs.save();
         };
 
-        self.getLocations = function (){
+        self.getServers = function (){
             return self.prefs.get("servers");
         };
 
 
-        self.getLocationByIT = function (issueTracker) {
-            var locations = self.getLocations();
-            var resp = locations.filter( function(elem) {
+        self.getServerByIT = function (issueTracker) {
+            var servers = self.getServers();
+            var resp = servers.filter( function(elem) {
                 return issueTracker.domain.match(new RegExp(elem.domain)) && true;
             });
 
             return resp? resp[0] : undefined;
         };
 
-        self.getLocationByITName = function(domain) {
-            var locations = self.getLocations();
-            var resp = locations.filter( function(elem) {
+        self.getServersByITName = function(domain) {
+            var servers = self.getServers();
+            var resp = servers.filter( function(elem) {
                 return domain.match(new RegExp(elem.domain)) && true;
             });
 
@@ -82,10 +82,6 @@ define( function( require, exports ) {
             self.prefs.set("issueTrackers", object, PreferencesManager.CURRENT_PROJECT);
             self.prefs.save();
             self.prefs = PreferencesManager.getExtensionPrefs( 'nullpo.alice-issuetracker' );
-        };
-
-        self.getLocationByDomain = function(name){
-            return self.prefs.get('servers')[name];
         };
 
         self.getIssueTrackers = function(){
@@ -101,12 +97,14 @@ define( function( require, exports ) {
             issueTrackers[name] = object;
             self._setIssueTrackers(issueTrackers);
         };
-        self.updateCredentals = function(location,credential){
+
+        self.updateCredentals = function(server,credential){
             var servers = self.prefs.get('servers');
 
             for(var i = 0; i < servers.length;i++){
-                if(location.domain == servers[i].domain)
+                if(server.domain == servers[i].domain){
                     break;
+                }
             }
             servers[i].credential = credential;
             self.prefs.set('servers',servers);

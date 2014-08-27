@@ -22,9 +22,6 @@ define(function (require, exports) {
         var deferred = $.Deferred();
         self.preferences = require("src/preferences");
         self.preferences.init();
-
-        console.debug(self.preferences.instance().getLocations());
-
         deferred.resolve();
         return deferred;
     };

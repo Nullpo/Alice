@@ -3,7 +3,7 @@
 define(function (require, exports, module) {
 
     var self            = this;
-
+    var AliceUtils      = require("src/view/aliceUtils");
     self._getUrlContext = function(url){
         return url.match(/^\s*https:\/\/github\.com\/([^\/\s]+\/[^\/\s]+)\s*$/)[1];
     };
@@ -11,7 +11,7 @@ define(function (require, exports, module) {
     self._normalizeLabel = function(label) {
         return {
             name:label.name,
-            //color: AliceUtils.colors.isTooLightYIQ(label.color)?"#333":"white",
+            color: AliceUtils.colors.isTooLightYIQ(label.color)?"#333":"white",
             background : "#" + label.color
         };
     };

@@ -2,9 +2,10 @@
 /*global define, Mustache, brackets, $*/
 
 define(function (require, exports) {
-    //var Utils = require("src/view/aliceUtils");
+
     var Dialogs             = brackets.getModule("widgets/Dialogs"),
-        Tube                = require("src/tube").instance;
+        Tube                = require("src/tube").instance,
+        AliceUtils          = require("src/view/aliceUtils");
 
     var self = this;
     self.Tube = Tube;
@@ -21,7 +22,7 @@ define(function (require, exports) {
         if(location.length > 0){
             location = location[0];
         }
-        var serverLocation = Preferences.getLocationByITName(location.domain);
+        var serverLocation = Preferences.getServersByITName(location.domain);
         var credential = {
             name : location.name
         };
@@ -45,6 +46,73 @@ define(function (require, exports) {
         });
     };
 
+    exports.transformers = [
+        {
+            id:"bitbucket-blocker",
+            name:"",
+            icon:"octicon-circle-slash",
+            color:"red",
+            transform: function(results){
+                return results.filter(function(issue){
+                    return issue.labels.some(function(label){
+                        return label.name.indexOf(AliceUtils.images.priorities.blocker) != -1;
+                    });
+                });
+            }
+        },
+        {
+            id:"bitbucket-critical",
+            name:"",
+            icon:"octicon-arrow-up",
+            color:"red",
+            transform: function(results){
+                return results.filter(function(issue){
+                    return issue.labels.some(function(label){
+                        return label.name.indexOf(AliceUtils.images.priorities.critical) != -1;
+                    });
+                });
+            }
+        },
+        {
+            id:"bitbucket-major",
+            name:"",
+            icon:"octicon-arrow-small-up",
+            color:"red",
+            transform: function(results){
+                return results.filter(function(issue){
+                    return issue.labels.some(function(label){
+                        return label.name.indexOf(AliceUtils.images.priorities.major) != -1;
+                    });
+                });
+            }
+        },
+        {
+            id:"bitbucket-trivial",
+            name:"",
+            icon:"octicon-arrow-small-down",
+            color:"green",
+            transform: function(results){
+                return results.filter(function(issue){
+                    return issue.labels.some(function(label){
+                        return label.name.indexOf(AliceUtils.images.priorities.trivial) != -1;
+                    });
+                });
+            }
+        },
+        {
+            id:"bitbucket-minor",
+            name:"",
+            icon:"octicon-arrow-down",
+            color:"green",
+            transform: function(results){
+                return results.filter(function(issue){
+                    return issue.labels.some(function(label){
+                        return label.name.indexOf(AliceUtils.images.priorities.minor) != -1;
+                    });
+                });
+            }
+        },
+    ];
 
     exports.call = function(locationName){
         this.config(locationName);

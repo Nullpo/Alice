@@ -38,7 +38,7 @@ define(function (require, exports) {
                 panels[args.to].afterRender(args,$toolbar,$content);
             }
             if(panels[args.to].events){
-                panels[args.to].events($("#alice-bottom"),$toolbar,$content);
+                panels[args.to].events($("#alice-bottom"),$toolbar,$content,args);
             }
         }
     });

@@ -16,17 +16,17 @@
                                 data-it="{{name}}"
                                 data-protocol="{{protocol}}"
                                 class="alice-credentials btn btn-mini btn-block
-                                       {{#location}}
+                                       {{#server}}
                                             {{#credential}}
                                                 alice-btn-success
                                             {{/credential}}
                                             {{^credential}}
                                                 alice-btn-error
                                             {{/credential}}
-                                       {{/location}}
-                                       {{^location}}
+                                       {{/server}}
+                                       {{^server}}
                                                 alice-btn-error
-                                       {{/location}}"
+                                       {{/server}}"
                             type="button">Credentials</button>
                         <img class="media-object" src="{{image}}" style="width:64px;border:1px solid #CCF">
                         <button class="alice btn btn-mini btn-block selectedIT alice-btn-success"

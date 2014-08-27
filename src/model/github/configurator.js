@@ -21,10 +21,10 @@ define(function (require, exports) {
         if(location.length > 0){
             location = location[0];
         }
-        var serverLocation = Preferences.getLocationByITName(location.domain);
+        var server = Preferences.getServersByITName(location.domain);
 
         var rendered = Mustache.render(dialogCredentials, {
-            token: serverLocation.credential,
+            token: server.credential,
             name : location.name
         });
 
@@ -36,11 +36,10 @@ define(function (require, exports) {
 
         $("#alice-save-credential").click(function(){
             var credential = $("#alice-new-credential").val();
-            Preferences.updateCredentals(serverLocation,credential);
+            Preferences.updateCredentals(server,credential);
             dialog.close();
         });
     };
-
 
     exports.call = function(locationName){
         this.config(locationName);

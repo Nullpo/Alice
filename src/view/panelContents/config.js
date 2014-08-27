@@ -10,13 +10,13 @@ define(function (require, exports) {
         Mustache.parse(_html);
         Mustache.parse(_toolbar);
         return {
-            render: function(elem) {
+            render: function() {
                 var Preferences = require("src/preferences").instance();
                 var it = Preferences.getIssueTrackers();
-                var locations = Preferences.getLocations();
+                var servers = Preferences.getServers();
                 return {
                     toolbar: Mustache.render(_toolbar),
-                    content: JSON.stringify(it) + "<br />" + JSON.stringify(locations)
+                    content: JSON.stringify(it) + "<br />" + JSON.stringify(servers)
                 };
             },
             events: function() {
