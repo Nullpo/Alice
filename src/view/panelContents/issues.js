@@ -64,6 +64,9 @@ define(function (require, exports) {
                             if($(this).attr("class").indexOf("btn-primary") == -1){
                                 filterData.transform = elem.transform;
                                 filterData.transformId = elem.id;
+                            } else {
+                                filterData.transform = undefined;
+                                filterData.transformId = undefined;
                             }
                             Tube.drop("changePanel",filterData);
                         });

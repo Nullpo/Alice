@@ -13,17 +13,17 @@ define(function (require, exports) {
         "Github" : {
             connector    : require("src/model/github/connector"),
             lookup       : require("src/model/github/lookup"),
-            configurator : require("src/model/github/configurator"),
+            configurator : require("src/model/github/view"),
         },
         "Gitlab" : {
             connector    : require("src/model/gitlab/connector"),
             lookup       : require("src/model/gitlab/lookup"),
-            configurator : require("src/model/gitlab/configurator")
+            configurator : require("src/model/gitlab/view")
         },
         "Bitbucket" : {
             connector    : require("src/model/bitbucket/connector"),
             lookup       : require("src/model/bitbucket/lookup"),
-            configurator : require("src/model/bitbucket/configurator")
+            configurator : require("src/model/bitbucket/view")
         },
     };
 

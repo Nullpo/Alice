@@ -1,31 +1,43 @@
-<div class="btn-group alice-right-icons">
+<div class="alice-right-icons">
+   <div class="btn-group">
    {{#transformers}}
-        <button class="btn" id="nullpo-alice-btn-transformer-{{id}}">
+        <button class="btn" id="nullpo-alice-btn-transformer-{{id}}" title="{{title}}">
             {{#image}}
-                <img src="{{image}}" style="width:14px" />
+                <img src="{{image}}" style="width:14px"
+                     title="{{title}}"/>
             {{/image}}
             {{#icon}}
-                <i class="octicon {{icon}}" style="color:{{color}}"></i>
+                <i class="octicon {{icon}}" style="color:{{color}}"
+                    title="{{title}}"
+                ></i>
             {{/icon}}
+            {{#name}}
+                <span style="color:{{color}}">{{name}}</span>
+            {{/name}}
         </button>
     {{/transformers}}
-    &nbsp;
-    <button class="btn" id="nullpo-alice-btn-bugs">
-        <i class="octicon octicon-bug"></i>
-    </button>
-    <button class="btn" id="nullpo-alice-btn-open">
-        <i class="octicon octicon-issue-opened"></i>
-        Open
-    </button>
-    <button class="btn" id="nullpo-alice-btn-closed">
-        <i class="octicon octicon-issue-closed"></i>
-        Closed
-    </button>
-    <button class="btn" id="nullpo-alice-btn-all">
-        <i class="octicon octicon-list-unordered"></i>
-        All
-    </button>
-    <button class="btn" id="nullpo-alice-btn-settings">
-        <i class="octicon octicon-tools"></i>
-    </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn" id="nullpo-alice-btn-bugs">
+            <i class="octicon octicon-bug"></i>
+            Open bugs
+        </button>
+        <button class="btn" id="nullpo-alice-btn-open">
+            <i class="octicon octicon-issue-opened"></i>
+            Open
+        </button>
+        <button class="btn" id="nullpo-alice-btn-closed">
+            <i class="octicon octicon-issue-closed"></i>
+            Closed
+        </button>
+        <button class="btn" id="nullpo-alice-btn-all">
+            <i class="octicon octicon-list-unordered"></i>
+            All
+        </button>
+    </div>
+    <div class="btn-group">
+        <button class="btn" id="nullpo-alice-btn-new-issue">
+            <i class="octicon octicon-diff-added" style="color:green"></i>
+        </button>
+    </div>
 </div>

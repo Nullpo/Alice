@@ -4,10 +4,10 @@
                 <th style="text-align:right">#</th>
                 <th style="text-align:center">Creator</th>
                 <th style="text-align:center">Asignee</th>
-                <th>Issue</th>
-                <th>Status</th>
-                <th>Labels</th>
-                <th>Milestone</th>
+                <th>&nbsp;&nbsp;Issue</th>
+                <th style="text-align:center;width:10%">Status</th>
+                <th style="text-align:center;width:35%">Labels</th>
+                <th style="text-align:center;width:15%">Milestone</th>
             </tr>
         </thead>
         <tbody>
@@ -29,13 +29,13 @@
                     </a>
                 </td>
                 <td><a href="#" class="alice-get-details" data-number="{{apiId}}">{{title}}</a></td>
-                <td><a href="#">{{state}}</a></td>
-                <td>
+                <td style="text-align:center;"><a href="#" >{{state}}</a></td>
+                <td style="width:35%">
                     {{#labels}}
-                        <span class="label" style="background-color:{{background}};color:{{color}}">{{{name}}}</span>
+                        <span class="label" style="background-color:{{background}};color:{{color}};margin-bottom:5px">{{{name}}}</span>
                     {{/labels}}
                 </td>
-                <td>
+                <td style="width:15%">
                     {{#milestone}}
                         <span class="label label-info">
                             {{milestone.title}} ({{milestone.open_issues}})
