@@ -10,6 +10,8 @@ define( function( require, exports ) {
             this.subscriptions = { };
 
             this.drop = function(subscription,params){
+                console.log("[subs] "  + subscription + " -> " + JSON.stringify(params));
+
                 if(self.subscriptions[subscription]){
                     self.subscriptions[subscription].forEach(function(subscriptor){
                         try {

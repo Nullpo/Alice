@@ -6,7 +6,6 @@
 
 .alice-background-logo {
     background-image: url('../images/logo.svg' );
-    background-clip: 0 24px;
     background-repeat: repeat;
     background-size: 98px;
     position: absolute;
@@ -16,8 +15,8 @@
     height: 100px;
     -webkit-transform: rotate(-35deg);
     background-color: rgba(255,255,255,0.1);
-    opacity: 0.2;
-    background-position: -11px -117px;
+    opacity: 0.1;
+    background-position: -11px -102px;
 }
 
 @-webkit-keyframes alice-rotate-background-logo {
@@ -35,7 +34,7 @@
 
 .alice-background-logo.busy {
     opacity: 0.4!important;
-    background-position: -11px -221px;
+    background-position: -11px -209px;
     -webkit-animation-name: alice-rotate-background-logo;
     -webkit-animation-direction: alternate;
     -webkit-animation-duration: 0.5s;

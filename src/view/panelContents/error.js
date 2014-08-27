@@ -14,8 +14,6 @@ define(function (require, exports) {
                     headline : ""
                 };
 
-                $(".alice-background-logo").attr("class","alice-background-logo error");
-
                 switch (elem.data.status){
                     case 404:
                         data.title = "404 - Not found";

@@ -11,7 +11,7 @@ define( function( require, exports ) {
         self.init = function(){
             self.prefs = PreferencesManager.getExtensionPrefs( 'nullpo.alice-issuetracker' );
 
-            var defaultLocations = [
+            var defaultServers = [
                 {
                     domain      : "^github\\.com" ,
                     api         : "https://api.github.com/repos/",
@@ -38,8 +38,8 @@ define( function( require, exports ) {
                 }
             ];
 
-            self.prefs.definePreference('locations', 'object', defaultLocations);
-            self.prefs.set('locations',defaultLocations);
+            self.prefs.definePreference('servers', 'object', defaultServers);
+            //self.prefs.set('locations',defaultLocations);
             self.prefs.save();
             var issueTrackers = self.prefs.get("issueTrackers",
                                                PreferencesManager.CURRENT_PROJECT);
@@ -56,7 +56,7 @@ define( function( require, exports ) {
         };
 
         self.getLocations = function (){
-            return self.prefs.get("locations");
+            return self.prefs.get("servers");
         };
 
 
@@ -81,10 +81,11 @@ define( function( require, exports ) {
         self._setIssueTrackers = function(object) {
             self.prefs.set("issueTrackers", object, PreferencesManager.CURRENT_PROJECT);
             self.prefs.save();
+            self.prefs = PreferencesManager.getExtensionPrefs( 'nullpo.alice-issuetracker' );
         };
 
         self.getLocationByDomain = function(name){
-            return self.prefs.get('locations')[name];
+            return self.prefs.get('servers')[name];
         };
 
         self.getIssueTrackers = function(){
@@ -100,16 +101,17 @@ define( function( require, exports ) {
             issueTrackers[name] = object;
             self._setIssueTrackers(issueTrackers);
         };
-        self.addOrReplaceLocation = function(location){
-            var locations = self.prefs.get('locations');
+        self.updateCredentals = function(location,credential){
+            var servers = self.prefs.get('servers');
 
-            for(var i = i; i < locations.length;i++){
-                if(locations[i].name == location.name)
+            for(var i = 0; i < servers.length;i++){
+                if(location.domain == servers[i].domain)
                     break;
             }
-            locations[i] = location;
-            self.prefs.set('locations',locations[i]);
+            servers[i].credential = credential;
+            self.prefs.set('servers',servers);
             self.prefs.save();
+            self.prefs = PreferencesManager.getExtensionPrefs( 'nullpo.alice-issuetracker' );
         };
     };
 

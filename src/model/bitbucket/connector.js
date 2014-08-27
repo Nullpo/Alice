@@ -1,5 +1,5 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global define, $ */
+/*global define, $, btoa */
 define(function (require, exports) {
 
     var self            = this;
@@ -113,16 +113,17 @@ define(function (require, exports) {
     */
     self.getIssues = function(issueTracker, location){
         var repoApiUrl  = location.api + issueTracker.context,
-            requestUrl  = repoApiUrl + "/issues";
+            requestUrl  = repoApiUrl + "/issues",
+            credential  = location.credential.usr + ":" + location.credential.pass;
 
         return $.ajax
               ({
                 type: "GET",
                 url: requestUrl,
                 dataType: 'json',
-                async: false,
+                async: true,
                 beforeSend: function (xhr){
-                    xhr.setRequestHeader('Authorization', "Basic " + location.credential);
+                    xhr.setRequestHeader('Authorization', "Basic " + btoa(credential));
                 }
             }).then(function(response){
                 return response.issues.map(self._normalizeIssue);
@@ -133,7 +134,8 @@ define(function (require, exports) {
     */
     self.issueDetail = function(issueTracker, location, number) {
         var repoApiUrl  = location.api + issueTracker.context,
-            requestUrl  = repoApiUrl + "/issues/"+number+ "/comments";
+            requestUrl  = repoApiUrl + "/issues/"+number+ "/comments",
+            credential  = location.credential.usr + ":" + location.credential.pass;
 
        return $.ajax
               ({
@@ -142,7 +144,7 @@ define(function (require, exports) {
                 dataType: 'json',
                 async: false,
                 beforeSend: function (xhr){
-                    xhr.setRequestHeader('Authorization', "Basic " + location.credential);
+                    xhr.setRequestHeader('Authorization', "Basic " + btoa(credential));
                 }
             }).then(function(response){
                 return response.map(self._normalizeIssueComments);

@@ -20,6 +20,7 @@ define(function (require, exports) {
         }
 
         if(args.to){
+            $("#alice-btn-change").unbind();
             $("#alice-btn-change").click(function(){
                 Tube.drop("changePanel",{
                     to: "init",

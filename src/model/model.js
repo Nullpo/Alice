@@ -13,17 +13,17 @@ define(function (require, exports) {
         "Github" : {
             connector    : require("src/model/github/connector"),
             lookup       : require("src/model/github/lookup"),
-            //configurator : require("src/model/github/configurator"),
+            configurator : require("src/model/github/configurator"),
         },
         "Gitlab" : {
             connector    : require("src/model/gitlab/connector"),
-            lookup       : require("src/model/gitlab/lookup")
-            //configurator : require("src/model/gitlab/configurator"),
+            lookup       : require("src/model/gitlab/lookup"),
+            configurator : require("src/model/gitlab/configurator")
         },
         "Bitbucket" : {
             connector    : require("src/model/bitbucket/connector"),
-            lookup       : require("src/model/bitbucket/lookup")
-            //configurator : require("src/model/gitlab/configurator"),
+            lookup       : require("src/model/bitbucket/lookup"),
+            configurator : require("src/model/bitbucket/configurator")
         },
     };
 
@@ -32,6 +32,13 @@ define(function (require, exports) {
     var Model = function(issueTrackers) {
         var self = this;
         this.issueTrackers = null;
+
+        this.getConfigurator = function(protocol){
+            var issueTracker = this.issueTrackers.filter(function(elem){
+                return elem.protocol == protocol;
+            })[0];
+            return clazz.genericIT[issueTracker.protocol].configurator;
+        };
 
         this.data = {
             selectedIssueTracker : null,

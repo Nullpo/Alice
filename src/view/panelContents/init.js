@@ -7,12 +7,10 @@ define(function (require, exports) {
     var Tube      = require("src/tube").instance;
     var panel = (function(){
         var _html               = require("text!tpl/init/init.mustache"),
-            _toolbar            = require("text!tpl/init/issueListToolbar.mustache"),
-            dialogCredentials   =  require("text!tpl/init/dialogCredentials.mustache");
+            _toolbar            = require("text!tpl/init/issueListToolbar.mustache");
 
         Mustache.parse(_html);
         Mustache.parse(_toolbar);
-        Mustache.parse(dialogCredentials);
 
         return {
             render: function() {
@@ -38,7 +36,7 @@ define(function (require, exports) {
                     return elem;
                 });
                 return {
-                    toolbar: Mustache.render(_toolbar),
+                    toolbar: "",
                     content: Mustache.render(_html,{issueTrackers : issueTrackers})
                 };
             },
@@ -58,26 +56,7 @@ define(function (require, exports) {
                 });
 
                 $content.find(".alice-credentials").click(function(){
-                    var Preferences = require("src/preferences").instance(),
-                        name        = $(this).data("it"),
-                        Model       = require("src/model/model").instance;
-
-
-                    var it = Model.issueTrackers.filter(function(elem){
-                        return elem.name == name;
-                    });
-                    if(it.length > 0){
-                        it = it[0];
-                    }
-                    var location = Preferences.getLocationByIT(it);
-                    var rendered = Mustache.render(dialogCredentials, {
-                        token: location.credential
-                    });
-                    var dialog = Dialogs.showModalDialogUsingTemplate(rendered);
-                    $(dialog).find(".bnt.primary").click(function(){
-                        location.credential = $("#alice-new-accessToken").val();
-                        Preferences.addOrReplaceLocation(location);
-                    });
+                    Model.getConfigurator($(this).data("protocol")).call($(this).data("it"));
                 });
             }
         };

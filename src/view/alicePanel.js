@@ -58,6 +58,21 @@ define(function (require, exports) {
             }
             return self._realVisibility;
         };
+
+
+        clazz.Tube.on("busy", function(){
+            $(".alice-background-logo").attr("class","alice-background-logo busy");
+        });
+
+        clazz.Tube.on("notbusy",function(){
+            $(".alice-background-logo").attr("class","alice-background-logo");
+        });
+
+        clazz.Tube.on("error",function(){
+            $(".alice-background-logo").attr("class","alice-background-logo error");
+        });
+
+
         clazz.Tube.on("clickOnToolbar",self.togglePanel);
     };
 
