@@ -135,10 +135,46 @@ define(function (require, exports) {
         }
 
         return $.getJSON(requestUrl).then(function(data){
-            return data.map(self._normalizeIssueComments(issueTracker.context,number));
+            return data.sort(function(a,b){
+                if(a.id < b.id)
+                    return -1;
+                if(a.id > b.id)
+                    return 1;
+                return 0;
+            }).map(self._normalizeIssueComments(issueTracker.context,number));
         });
     };
 
+    /**
+        number: number,
+        text: text,
+        server: server,
+        issueTracker: it
+    */
+    self.addComment = function(args){
+         var repoApiUrl  = args.server.api + args.issueTracker.context.replace("/","%2F"),
+            requestUrl  = repoApiUrl + "/issues/"+args.number+"/notes";
+
+            if(args.server.credential){
+                requestUrl += "?private_token=" + args.server.credential;
+            } else {
+                console.warn("[Gitlab connector] The user doesn't have any acces token!");
+            }
+
+        var tengoladata = {
+            body: args.text
+        };
+         return $.ajax
+              ({
+                type: "POST",
+                url: requestUrl,
+                data: {body:args.text},
+                async: true,
+            }).done(function(response){
+                console.log("Comment created sucessfully");
+                console.log(response);
+            });
+    };
 
     self.viewConfig = {
         validate    : function(){

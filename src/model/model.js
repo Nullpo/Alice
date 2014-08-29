@@ -33,6 +33,19 @@ define(function (require, exports) {
         var self = this;
         this.issueTrackers = null;
 
+        this.addComment = function(number,text){
+            var protocol = this.data.selectedIssueTracker.protocol,
+                it       = this.data.selectedIssueTracker,
+                server   = Preferences.instance().getServerByIT(it);
+
+            return clazz.genericIT[protocol].connector.addComment({
+                number: number,
+                text: text,
+                server: server,
+                issueTracker: it
+            });
+        };
+
         this.getConfigurator = function(protocol){
             var issueTracker = this.issueTrackers.filter(function(elem){
                 return elem.protocol == protocol;

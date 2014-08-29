@@ -36,14 +36,37 @@ define(function (require, exports) {
                         })
                     };
                     $content.html(Mustache.render(_html,data));
+
+                    if(args.scroll == "bottom"){
+                        $("#alice-bottom-issues").scrollTop($("#alice-bottom-issues").prop("scrollHeight"));
+                    }
+                    $("#alice-btn-comment").click(function(){
+                        var Model  = require("src/model/model").instance,
+                            comment = $("#alice-text-comment").val();
+                        Model.addComment(args.data,comment).done(function(){
+                            Tube.drop("changePanel",{
+                                    to: "detail",
+                                    data : number,
+                                    scroll: "bottom"
+                            });
+                        });
+                    });
+
+                    $("#alice-btn-comment-preview").click(function(){
+                        var comment = $("#alice-text-comment").val(),
+                            $preview = $("#alice-div-comment-preview"),
+                            Marked = require("third_party/marked");
+                        $preview.html(Marked(comment));
+                        $("#alice-bottom-issues").scrollTop($("#alice-bottom-issues").prop("scrollHeight"));
+                    });
                 });
 
                 return;
             },
-            events: function() {
+            events: function($panel,$toolbar, $content,args) {
                  $("#alice-btn-back").click(function(){
                     Tube.drop("changePanel",{
-                            to: "issues"
+                        to: "issues"
                     });
                 });
             }

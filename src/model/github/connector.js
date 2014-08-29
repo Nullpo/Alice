@@ -105,12 +105,12 @@ define(function (require, exports, module) {
 
     /** Get the details for an issue from a github project.
     */
-    self.issueDetail = function(issueTracker, location, number) {
-        var repoApiUrl  = location.api + issueTracker.context,
+    self.issueDetail = function(issueTracker, server, number) {
+        var repoApiUrl  = server.api + issueTracker.context,
             requestUrl  = repoApiUrl + "/issues/"+number+"/comments?per_page=100";
 
-        if(location.credentials){
-            requestUrl += "&access_token=" + location.credentials;
+        if(server.credential){
+            requestUrl += "&access_token=" + server.credential;
         } else {
             console.warn("[Github connector] The user doesn't have any acces token!");
         }
@@ -118,6 +118,37 @@ define(function (require, exports, module) {
         return $.getJSON(requestUrl).then(function(response){
             return response.map(self._normalizeIssueComments);
         });
+    };
+    /**
+        number: number,
+        text: text,
+        server: server,
+        issueTracker: it
+    */
+    self.addComment = function(args){
+         var repoApiUrl  = args.server.api + args.issueTracker.context,
+            requestUrl  = repoApiUrl + "/issues/"+args.number+"/comments";
+            args.text.replace(/\"/g,"\\\"");
+            if(args.server.credential){
+                requestUrl += "?access_token=" + args.server.credential;
+            } else {
+                console.warn("[Github connector] The user doesn't have any acces token!");
+            }
+
+        var tengoladata = {
+            body: args.text
+        };
+         return $.ajax
+              ({
+                type: "POST",
+                url: requestUrl,
+                data: JSON.stringify(tengoladata),
+                dataType: 'json',
+                async: true,
+            }).done(function(response){
+                console.log("Comment created sucessfully");
+                console.log(response);
+            });
     };
 
     exports.name                        = "Github";
