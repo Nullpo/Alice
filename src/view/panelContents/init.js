@@ -3,6 +3,7 @@
 
 define(function (require, exports) {
     var Tube      = require("src/tube").instance;
+    var AliceUtils   = require("src/view/aliceUtils");
     var panel = (function(){
         var _html               = require("text!tpl/init/init.mustache"),
             _toolbar            = require("text!tpl/init/issueListToolbar.mustache");
@@ -15,24 +16,39 @@ define(function (require, exports) {
                 var Model   = require("src/model/model").instance;
                 var Preferences = require("src/preferences").instance();
                 var it      = Model.issueTrackers;
-                var issueTrackers = it.map(function(elem){
+                var tmpIssueTrackers = it.map(function(elem){
                     switch (elem.protocol){
                         case "Github":
-                            elem.image = "https://cdn1.iconfinder.com/data/icons/" +
-                                            "windows-8-metro-style/512/github.png";
+                            elem.image = AliceUtils.images.protocols.github;
                             break;
                         case "Gitlab":
-                            elem.image = "http://luzem.dyndns.org/wp-content/" +
-                                            "uploads/2012/02/gitlab_logo.png";
+                            elem.image = AliceUtils.images.protocols.gitlab;
                             break;
                         case "Bitbucket":
-                            elem.image = "https://pbs.twimg.com/profile_images/3091771597/6599f87f8b4f374fde735ba3feece4bb_400x400.png";
+                            elem.image = AliceUtils.images.protocols.bitbucket;
                             break;
                     }
 
                     elem.server = Preferences.getServerByIT(elem);
                     return elem;
                 });
+
+                // Divide the issue trackers in groups of three
+                var issueTrackers = [];
+                var actualGroup = [];
+                for(var i = 0; i < tmpIssueTrackers.length;i++){
+                    if(actualGroup.length === 3)  {
+                        actualGroup = [];
+                    }
+
+                    if(actualGroup.length === 0){
+                        issueTrackers.push(actualGroup);
+                    }
+
+                    actualGroup.push(tmpIssueTrackers[i]);
+                }
+
+
                 return {
                     toolbar: "",
                     content: Mustache.render(_html,{issueTrackers : issueTrackers})

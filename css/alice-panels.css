@@ -1,11 +1,34 @@
+.alice-background-it-card {
+    width: 36px;
+    height: 36px;
+    background-size: 36px;
+    background-position: 90% 90%;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    -webkit-filter: blur(1px) brightness(1) opacity(0.4);
+}
+
+.alice-background-it-card-2 {
+    width: 36px;
+    height: 36px;
+    background-size: 36px;
+    background-position: 90% 90%;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+
 .alice-right-icons {
-    position:absolute;
+    position: absolute;
     right: 23px;
     top: 6px;
 }
-
 .alice-background-logo {
-    background-image: url('../images/logo.svg' );
+    background-image: url('../images/logo.svg');
     background-repeat: repeat;
     background-size: 98px;
     position: absolute;
@@ -14,24 +37,21 @@
     width: 90px;
     height: 100px;
     -webkit-transform: rotate(-35deg);
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     opacity: 0.1;
     background-position: -11px -102px;
 }
-
 @-webkit-keyframes alice-rotate-background-logo {
-   from {
-     -webkit-transform: rotate(-20deg);
-   }
-   to {
-     -webkit-transform: rotate(-50deg);
-   }
+    from {
+        -webkit-transform: rotate(-20deg);
+    }
+    to {
+        -webkit-transform: rotate(-50deg);
+    }
 }
-
 .alice-background-logo.more-transparent {
     opacity: 0.1;
 }
-
 .alice-background-logo.busy {
     opacity: 0.4!important;
     background-position: -11px -209px;
@@ -41,39 +61,33 @@
     -webkit-animation-timing-function: linear;
     -webkit-animation-iteration-count: infinite;
 }
-
 .alice-background-logo.error {
     opacity: 0.4!important;
     background-position: -11px -313px;
 }
-
-
 .alice.subtitle {
     width: 100%;
     background-color: #D0d0d0;
     margin-top: -5px;
     padding: 10px;
     margin-left: -20px;
-    text-align:center;
+    text-align: center;
 }
-
-.alice-btn-success{
-   background-color: #5bb75b;
-   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-   color: #ffffff;
-   background-image: linear-gradient(to bottom, #62c462, #51a351);
-   background-repeat: repeat-x;
-   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+.alice-btn-success {
+    background-color: #5bb75b;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    color: #ffffff;
+    background-image: linear-gradient(to bottom, #62c462, #51a351);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-
 .alice-btn-success:hover,
 .alice-btn-success:focus,
 {
     color: #ffffff;
     background-color: #51a351;
 }
-
-.alice-btn-error{
+.alice-btn-error {
     color: #ffffff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     background-color: #da4f49;

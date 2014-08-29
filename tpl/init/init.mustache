@@ -1,55 +1,56 @@
-<div id="alice-panel-error">
-    <div class="row">
-        <div class="span11 offset1">
-            <h4><strong>
-                Please, select an issue tracker and continue.
-            </strong></h4>
-        </div>
-    </div>
+<div id="alice-panel-init">
+
     <br />
-    <div class="row">
-        {{#issueTrackers}}
-            <div class="span3 offset1" style="margin-bottom:10px">
-                <div class="media">
-                    <span class="pull-left">
-                        <button
+    {{#issueTrackers}}
+       <div class="row-fluid" style="margin-bottom:10px;">
+           <div class="span12" style="padding-left:25px;padding-right:25px;">
+               {{#.}}
+                    <div class="span4 well"
+                       style="position:relative">
+                        <div class="alice-background-it-card"
+                            style="background-image: url('{{image}}')">
+                        </div>
+                        <span class="pull-right">
+                            <button
+                                    data-it="{{name}}"
+                                    data-protocol="{{protocol}}"
+                                    class="alice-credentials btn btn-mini btn-block
+                                           {{#server}}
+                                                {{#credential}}
+                                                    alice-btn-success
+                                                {{/credential}}
+                                                {{^credential}}
+                                                    alice-btn-error
+                                                {{/credential}}
+                                           {{/server}}
+                                           {{^server}}
+                                                    alice-btn-error
+                                           {{/server}}"
+                                type="button">Credentials</button>
+                            <button class="alice btn btn-mini btn-block selectedIT alice-btn-success"
                                 data-it="{{name}}"
-                                data-protocol="{{protocol}}"
-                                class="alice-credentials btn btn-mini btn-block
-                                       {{#server}}
-                                            {{#credential}}
-                                                alice-btn-success
-                                            {{/credential}}
-                                            {{^credential}}
-                                                alice-btn-error
-                                            {{/credential}}
-                                       {{/server}}
-                                       {{^server}}
-                                                alice-btn-error
-                                       {{/server}}"
-                            type="button">Credentials</button>
-                        <img class="media-object" src="{{image}}" style="width:64px;border:1px solid #CCF">
-                        <button class="alice btn btn-mini btn-block selectedIT alice-btn-success"
-                            data-it="{{name}}"
-                            type="button">Select</button>
-                    </span>
-
-                    <div class="media-body">
-                        <span class="pull-right text-info" >
-                            <small>{{protocol}}</small>
+                                type="button">Select</button>
                         </span>
-                        <h4 class="media-heading">[{{name}}]</h4>
-                        <p><strong>Server: </strong>{{domain}}<br />
-                            <strong>Context:</strong>
-                             <a href="{{domain}}/{{context}}"
-                               style="width: 50px;white-space: nowrap;overflow: hidden;
-                                      text-overflow: ellipsis;"
-                               title="{{domain}}/{{context}}">{{context}}</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        {{/issueTrackers}}
-    </div>
+                        <div style="margin-left:4px">
+                            <h4>[{{name}}]</h4>
+                            <p>
+                              <strong>Server: </strong>{{domain}}<br />
+                              <strong>Protocol: </strong>{{protocol}}<br />
+                              <strong>Context:</strong>
+                              <a href="{{domain}}/{{context}}"
+                                 style="width: 50px;white-space: nowrap;overflow: hidden;
+                                        text-overflow: ellipsis;"
+                                 title="{{domain}}/{{context}}">{{context}}</a>
 
+
+                            </p>
+                        </div>
+
+                    </div>
+                {{/.}}
+            </div>
+        </div>
+    {{/issueTrackers}}
 </div>
+
+
