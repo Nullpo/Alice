@@ -161,11 +161,8 @@ define(function (require, exports) {
                 console.warn("[Gitlab connector] The user doesn't have any acces token!");
             }
 
-        var tengoladata = {
-            body: args.text
-        };
-         return $.ajax
-              ({
+            return $.ajax
+            ({
                 type: "POST",
                 url: requestUrl,
                 data: {body:args.text},

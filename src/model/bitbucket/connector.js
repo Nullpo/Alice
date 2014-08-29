@@ -151,6 +151,25 @@ define(function (require, exports) {
             });
     };
 
+    self.addComment = function(args){
+         var repoApiUrl  = args.server.api + args.issueTracker.context,
+            requestUrl  = repoApiUrl + "/issues/"+args.number+ "/comments",
+            credential  = args.server.credential.usr + ":" + args.server.credential.pass;
+
+            return $.ajax
+            ({
+                type: "POST",
+                url: requestUrl,
+                data: {content:args.text},
+                async: true,
+                beforeSend: function (xhr){
+                    xhr.setRequestHeader('Authorization', "Basic " + btoa(credential));
+                }
+            }).done(function(response){
+                console.log("Comment created sucessfully");
+                console.log(response);
+            });
+    };
     exports.name                        = "Bitbucket";
     exports.getIssues                   = self.getIssues;
     exports.issueDetail                 = self.issueDetail;
