@@ -1,120 +1,102 @@
-<div class="alice-comments span12">
+<div class="alice-comments" style="background-color:white">
     {{#issue}}
-    <div class="alice subtitle" id="nameForTheIssue">
-        <div class="pull-left">
-            {{#milestone}}
-            <span class="label label-info">
-                        {{milestone.title}} ({{milestone.open_issues}})
-                    </span>
-            {{/milestone}} {{^milestone}}
-            <span class="label ">
-                        No milestone
-                    </span>
-            {{/milestone}}
-        </div>
-        <a href="{{html_url}}"><strong>#{{number}} - {{issue.title}}</strong></a>
-        <div class="pull-right">
-            {{#labels}}
-            <span class="label" style="background-color:#{{color}};color:yellow">
-                        {{{name}}}
-                    </span>
-            {{/labels}}
+    <div class="row-fluid">
+        <div class="alice subtitle span12" id="nameForTheIssue" style="padding-bottom: 0px;margin-bottom: 10px;">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="pull-left">
+                        {{#milestone}}
+                        <span class="label label-info">
+                                    {{milestone.title}} ({{milestone.open_issues}})
+                                </span>
+                        {{/milestone}} {{^milestone}}
+                        <span class="label ">
+                                    No milestone
+                                </span>
+                        {{/milestone}}
+                    </div>
+                    <a href="{{html_url}}"><strong>#{{number}} - {{issue.title}}</strong></a>
+                    <div class="pull-right">
+                        {{#labels}}
+                        <span class="label" style="background-color:#{{color}};color:yellow">
+                                    {{{name}}}
+                                </span>
+                        {{/labels}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="media">
-        <a class="pull-left" href="#">
-            <img class="media-object" style="width:34px" src="{{creator.avatarUrl}}">
-        </a>
-        <div class="media-body">
-            <span class="pull-right" style="font-weight: lighter;margin-right:10px">{{created_at}}</span>
-            {{#parsedBody}}
-            <h4 class="media-heading"><a href="{{creator.htmlUrl}}">{{creator.title}}</a> created the issue and said:</h4>
-            <div>{{{parsedBody}}}</div>
-            {{/parsedBody}}
-            {{^body}}
-                <h4 class="media-heading"><a href="{{creator.htmlUrl}}">{{creator.title}}</a>
-                 created the issue with no comments.</h4>
-            {{/body}}
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <div class="row-fluid">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" style="width:34px;border-radius: 3px;" src="{{creator.avatarUrl}}">
+                    </a>
+                    <div class="media-body">
+                        <span class="pull-right" style="font-weight: lighter;margin-right:10px">{{created_at}}</span>
+                        {{#parsedBody}}
+                        <h4 class="media-heading"><a href="{{creator.htmlUrl}}">{{creator.title}}</a> created the issue and said:</h4>
+                        <div>{{{parsedBody}}}</div>
+                        {{/parsedBody}}
+                        {{^body}}
+                            <h4 class="media-heading"><a href="{{creator.htmlUrl}}">{{creator.title}}</a>
+                             created the issue with no comments.</h4>
+                        {{/body}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {{/issue}}
 
     {{#comments}}
-    <hr />
-    <div class="media">
-        <a class="pull-left" href="{{creator.htmlUrl}}">
-            <img class="media-object" style="width:34px" src="{{creator.avatarUrl}}">
-        </a>
-        <div class="media-body">
-            <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
-            <h4 class="media-heading"><a href="{{html_url}}">{{creator.title}}</a> says:</h4>
-            {{{parsedBody}}}
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <hr />
+            <div class="media">
+                <a class="pull-left" href="{{creator.htmlUrl}}">
+                    <img class="media-object" style="width:34px;border-radius: 3px;" src="{{creator.avatarUrl}}">
+                </a>
+                <div class="media-body">
+                    <span class="pull-right" style="font-weight: lighter;">{{created_at}}</span>
+                    <h4 class="media-heading"><a href="{{html_url}}">{{creator.title}}</a> says:</h4>
+                    {{{parsedBody}}}
+                </div>
+            </div>
         </div>
     </div>
     {{/comments}}
 </div>
-<div class="alice-comments span12">
+
+<div class="alice-comments">
   <div class="row-fluid">
-        <div class="span6">
-            <h3>Add new comment</h3>
-        </div>
+  	<div class="span10 offset1">
+    	<h3>Add new comment</h3>
+		</div>
   </div>
   <div class="row-fluid">
-       <div class="span6">
-           <textarea id="alice-text-comment" class="span12" style="max-width:100%;height:8em">
-Fix #{{issue.number}}
+  	<div class="span5 offset1">
+    	<textarea id="alice-text-comment" class="span12" style="max-width:100%;height:8em">Fix #{{issue.number}}
 ---------------
 
-Fixed the issue '{{issue.title}}'
-           </textarea>
-       </div>
-       <div class="span6 alert alert-info" style="min-height: 8em;">
-           <span class="pull-right">Preview</span>
-           <div class="span12" id="alice-div-comment-preview" />
-        </div>
-    </div>
-    <br />
-    <div class="row-fluid">
-       <div class="span6" style="text-align:right">
-           <button class="btn" id="alice-btn-comment-preview" >
-               Show preview
-           </button>
-       </div>
-       <div class="span6" style="text-align:right">
-           <button class="btn" id="alice-btn-comment" >
-               Comment
-           </button>
-       </div>
-    </div>
-    <br/>
-
-
-
-
-
-
-
-    <!-- div class="row-fluid">
-       <div class="span8 offset2">
-           <textarea id="alice-text-comment" class="span12"></textarea>
-       </div>
-    </div>
-    <div class="row-fluid">
-       <div class="span4 offset6" style="text-align:right">
-           <button class="btn" id="alice-btn-comment-preview" >
-               Show preview
-           </button>
-           <button class="btn" id="alice-btn-comment" >
-               Comment
-           </button>
-       </div>
-    </div>
-    <br/>
-    <div class="row-fluid">
-        <div class="span8 offset2 alert alert-info" >
-           <div class="span12" id="alice-div-comment-preview" />
-        </div>
-    </div-->
-    <br />
+Fixed the issue '{{issue.title}}'</textarea>
+      </div>
+      <div class="span5 alert alert-info" style="min-height: 8em;">
+      	<span class="pull-right">Preview</span>
+        <div class="span12" id="alice-div-comment-preview" />
+      </div>
+  </div>
+  <br />
+  <div class="row-fluid">
+		  <div class="span5 offset1" style="text-align:right">
+				  <button class="btn" id="alice-btn-comment-preview" >Show preview</button>
+		  </div>
+		  <div class="span5" style="text-align:right">
+				  <button class="btn" id="alice-btn-comment" >Comment</button>
+		  </div>
+  </div>
+  <br />
+  <br />
 </div>
