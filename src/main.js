@@ -3,8 +3,9 @@
 
 define(function (require, exports) {
     "use strict";
-    var Async           = brackets.getModule("utils/Async");
-    var self = this;
+    var Async           = brackets.getModule("utils/Async"),
+        ProjectManager  = brackets.getModule("project/ProjectManager"),
+        self = this;
 
 
     self.preferences = undefined;
@@ -31,7 +32,7 @@ define(function (require, exports) {
         var deferred    = $.Deferred();
         var ModelClass  = require("src/model/model");
         self.model      = ModelClass.init();
-        self.model.done(function(){
+        self.model.done(function (){
             self.model = ModelClass.instance;
             deferred.resolve();
         }).fail(function(resp){

@@ -10,7 +10,7 @@ define(function (require, exports, module) {
         Tube            = require("src/tube"),
         Model           = require("src/model/model"),
         Preferences     = require("src/preferences"),
-        ProjectManager  = brackets.getModule("project/ProjectManager");;
+        ProjectManager  = brackets.getModule("project/ProjectManager");
 
     var Main            = require("src/main");
 
