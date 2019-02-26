@@ -1,5 +1,13 @@
+
+NOT IN DEVELOPMENT.
+===================
+
+Since Adobe said that there is no suppor for Linux, I decided to end this project in 2014.
+
 Alice Issue Tracker for Brackets
 ================================
+
+
 
 This Bracket's extension shows you all the issues from a Github repository. It is under development, so if you have bugs or new ideas let me know in the brackets-dev google group, or throught a new issue: https://github.com/Nullpo/Alice
 
