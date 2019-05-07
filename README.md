@@ -6,6 +6,7 @@ Since Adobe said that there is no suppor for Linux, I decided to end this projec
 
 Alice Issue Tracker for Brackets
 ================================
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/Nullpo/Alice?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
 
